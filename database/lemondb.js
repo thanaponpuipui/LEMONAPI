@@ -1,4 +1,4 @@
-const Pool = require('pg').Pool();
+const Pool = require('pg').Pool;
 
 // use use pool connection so we don`t have to open/close it every time we make query
 /* 
