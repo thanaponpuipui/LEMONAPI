@@ -5,7 +5,7 @@ module.exports.userVerifier = (db) => (username) => {
     }
     return db.query(query)
       .then(({ rows }) => {
-          if(rows[0]) return true;
+          if(rows[0]) return rows[0];
           return false;
       })
 }
