@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyPaser = require('body-parser');
 const cors = require('cors');
+const morgan = require('morgan');
 
 if (process.env.NODE_ENV !== 'production') {
     require('dotenv').config();
@@ -14,16 +15,13 @@ const staffRoute = require('./routes/staff');
 const app = express();
 
 app.use(cors());
-app.use(bodyPaser.urlencoded({extended:false}))
+// app.use(bodyPaser.urlencoded({extended:false}))
 app.use(bodyPaser.json());
+app.use(morgan('dev'));
 
 app.use('/auth', authRoute);
 app.use('/rest', restRoute);
 app.use('/staff', staffRoute);
-
-app.use('/', (req, res, next) => {
-    res.send('hello');
-})
 
 app.use((err, req, res, next) => {
     console.log('error handler')
