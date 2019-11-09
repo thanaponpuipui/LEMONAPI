@@ -7,7 +7,7 @@ const checkRestId = (db) => async (req, res, next) => {
     const { restId, accId } = req.query;
     // validation pending
     const sql = {
-        text: 'SELECT rest_id, rest_name FROM resturants WHERE rest_id = $1 and acc_id = $2',
+        text: 'SELECT rest_name FROM resturants WHERE rest_id = $1 AND acc_id = $2',
         values: [restId, accId]
     }
     try {
@@ -17,10 +17,10 @@ const checkRestId = (db) => async (req, res, next) => {
             err.errorCode = 400;
             throw err;
         }
-        const { rest_id, rest_name } = rows[0];
+        const { rest_name } = rows[0];
         const resData = {
-            restId: rest_id,
-            restName: rest_name,
+            branchId: restId,
+            branchName: rest_name,
         }
         res.status(200).json(resData);
     } catch (e) {
