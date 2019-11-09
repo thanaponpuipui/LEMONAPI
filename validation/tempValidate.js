@@ -70,14 +70,12 @@ module.exports.addStaffValidate = (data) => {
     name: Joi.string()
       .required(),
     isManager: Joi.boolean(),
-    phoneNo: Joi.string()
-      .trim()
-      .regex(/^[0-9]{9,10}$/)
-      .required(),
     password: Joi.string()
       .trim()
       .alphanum()
       .min(6)
       .max(12)
   })
+
+  return schema.validate(data);
 }
