@@ -1,6 +1,8 @@
 const Joi = require('@hapi/joi');
 // Joi use Object schema
 
+// @param {Object} data
+
 module.exports.loginValidation = (data) => {
   const schema = Joi.object({
     username: Joi.string()
@@ -78,4 +80,11 @@ module.exports.addStaffValidate = (data) => {
   })
 
   return schema.validate(data);
+}
+
+module.exports.addOrderValidation = (data) => {
+  const schema = Joi.object({
+    // object structure
+    
+  })
 }

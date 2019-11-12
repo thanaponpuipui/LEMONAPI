@@ -11,6 +11,8 @@ if (process.env.NODE_ENV !== 'production') {
 const authRoute = require('./routes/auth');
 const restRoute = require('./routes/resturant');
 const staffRoute = require('./routes/staff');
+const orderRoute = require('./routes/order');
+const stockRoute = require('./routes/stock');
 
 const app = express();
 
@@ -22,6 +24,8 @@ app.use(morgan('dev'));
 app.use('/auth', authRoute);
 app.use('/rest', restRoute);
 app.use('/staff', staffRoute);
+app.use('/order', orderRoute);
+app.use('/stock', stockRoute);
 
 app.use((err, req, res, next) => {
     console.log('error handler')
