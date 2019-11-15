@@ -7,7 +7,9 @@ const { registerValidate, ownerInfoValidate } = require('../../validation/tempVa
 
 const register = (db) => async (req, res, next) => {
     let client;
+    console.log('start');
     try {
+        console.log('try block');
         const { username, password, passwordConfirmed } = req.body;
         const { firstName, lastName, email } = req.body;    
 
