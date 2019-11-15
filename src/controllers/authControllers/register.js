@@ -6,6 +6,7 @@ const time = require('../../utils/time');
 const { registerValidate, ownerInfoValidate } = require('../../validation/tempValidate');
 
 const register = (db) => async (req, res, next) => {
+    let client;
     try {
         const { username, password, passwordConfirmed } = req.body;
         const { firstName, lastName, email } = req.body;    
@@ -16,7 +17,7 @@ const register = (db) => async (req, res, next) => {
         const verify = userVerifier(db);
         // use client for tranx
         let currentDateAndTime = time.now();
-        const client = await db.connect();
+        client = await db.connect();
         
         if (registerInvalid) {
             console.log(registerInvalid);
@@ -67,7 +68,11 @@ const register = (db) => async (req, res, next) => {
         }
         res.status(200).json(resData);
     } catch (e) {
-        await client.query('ROLLBACK');
+        try {
+            await client.query('ROLLBACK');
+        } catch (er) {
+            console.trance(er);
+        }
         console.trace(e);
         next(e);
     } finally {
