@@ -1,0 +1,15 @@
+***************select all order type********************
+SELECT
+    a.sale_id,
+    a.add_time,
+    a.order_type,
+    b.guest_no,
+    b.table_no,
+    d.service_name,
+    c.ref_code
+FROM sale_orders a
+LEFT JOIN eat_in_order b on a.sale_id = b.sale_id
+LEFT JOIN delivery_order c on a.sale_id = c.sale_id
+LEFT JOIN deli_service d on c.deli_service = d.d_service_id
+WHERE a.rest_id = 19 AND a.checked_time is null
+ORDER BY add_time;

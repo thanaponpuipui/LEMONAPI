@@ -7,7 +7,7 @@ CREATE TABLE membership(
 	membership_id SMALLSERIAL PRIMARY KEY NOT NULL,
 	membership_tier VARCHAR(50) NOT NULL,
 	price REAL NOT NULL,
-	detials VARCHAR(400)
+	detail VARCHAR(400)
 );
 
 *********************************************************************

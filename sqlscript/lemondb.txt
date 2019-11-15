@@ -10,7 +10,7 @@ CREATE TABLE membership(
 	membership_id SMALLSERIAL PRIMARY KEY NOT NULL,
 	membership_tier VARCHAR(50) NOT NULL,
 	price REAL NOT NULL,
-	detials VARCHAR(400)
+	detial VARCHAR(400)
 );
 
 CREATE TABLE membership_info(
@@ -66,14 +66,14 @@ CREATE TABLE food_items(
 	food_id SERIAL PRIMARY KEY,
 	food_name VARCHAR(100) NOT NULL,
 	price REAL NOT NULL,
-	details VARCHAR(400),
+	detail VARCHAR(400),
 	rest_id INTEGER REFERENCES resturants(rest_id) ON DELETE RESTRICT NOT NULL
 );
 
 CREATE TABLE ingredients(
 	ingredient_id SERIAL PRIMARY KEY,
 	ingredient_name VARCHAR(100) NOT NULL,
-	details VARCHAR(400),
+	detail VARCHAR(400),
 	rest_id INTEGER REFERENCES resturants(rest_id) ON DELETE RESTRICT NOT NULL,
 	UNIQUE (ingredient_name, rest_id);
 );
