@@ -6,18 +6,18 @@ const time = require('../../utils/time');
 const { registerValidate, ownerInfoValidate } = require('../../validation/tempValidate');
 
 const register = (db) => async (req, res, next) => {
-
-    const { username, password, passwordConfirmed } = req.body;
-    const { firstName, lastName, email } = req.body;    
-
-    // validation
-    const { error:registerInvalid } = registerValidate({username, password, passwordConfirmed});
-    const { error:ownerInfoInvalid } = ownerInfoValidate({firstName, lastName, email});
-    const verify = userVerifier(db);
-    // use client for tranx
-    let currentDateAndTime = time.now();
-    const client = await db.connect();
     try {
+        const { username, password, passwordConfirmed } = req.body;
+        const { firstName, lastName, email } = req.body;    
+
+        // validation
+        const { error:registerInvalid } = registerValidate({username, password, passwordConfirmed});
+        const { error:ownerInfoInvalid } = ownerInfoValidate({firstName, lastName, email});
+        const verify = userVerifier(db);
+        // use client for tranx
+        let currentDateAndTime = time.now();
+        const client = await db.connect();
+        
         if (registerInvalid) {
             console.log(registerInvalid);
             throw registerInvalid;
