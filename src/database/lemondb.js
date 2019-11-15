@@ -14,7 +14,7 @@ let databaseConfig;
 
 if (process.env.NODE_ENV === 'production') {
     databaseConfig = {
-        onnectionString: process.env.DATABASE_URL,
+        connectionString: process.env.DATABASE_URL,
         ssl: true,
     }
 } else {
