@@ -12,7 +12,7 @@ CREATE TABLE membership(
 
 *********************************************************************
 
-INSERT INTO membership(membership_tier, price, detials) VALUES('demo', 0, 'free plan for testing');
+INSERT INTO membership(membership_tier, price, detail) VALUES('demo', 0, 'free plan for testing');
 
 INSERT INTO deli_service(service_name) VALUES('GRAB FOOD');
 INSERT INTO deli_service(service_name) VALUES('LINE MAN');

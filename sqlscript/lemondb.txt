@@ -75,7 +75,7 @@ CREATE TABLE ingredients(
 	ingredient_name VARCHAR(100) NOT NULL,
 	detail VARCHAR(400),
 	rest_id INTEGER REFERENCES resturants(rest_id) ON DELETE RESTRICT NOT NULL,
-	UNIQUE (ingredient_name, rest_id);
+	UNIQUE (ingredient_name, rest_id)
 );
 
 CREATE TABLE food_receipts(
