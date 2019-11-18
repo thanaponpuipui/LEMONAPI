@@ -13,53 +13,64 @@ CREATE TABLE membership(
 	detial VARCHAR(400)
 );
 
-CREATE TABLE membership_info(
+
+CREATE TABLE membership_infos(
 	meminfo_id SERIAL PRIMARY KEY,
 	membership_id INTEGER REFERENCES membership(membership_id) ON DELETE RESTRICT NOT NULL,
 	start_date TIMESTAMP NOT NULL,
 	end_date TIMESTAMP
 );
 
+CREATE TABLE address_infos(
+	address_id SERIAL PRIMARY KEY,
+	address VARCHAR(300) NOT NULL,
+	province VARCHAR(100) NOT NULL,
+	district VARCHAR(100) NOT NULL,
+	postcode postcode NOT NULL
+);
+
 CREATE TABLE lemon_accounts(
-	acc_id SERIAL PRIMARY KEY, 
-	login_name VARCHAR(50) NOT NULL UNIQUE,
+	acc_id SERIAL PRIMARY KEY,
+	login_name VARCHAR(20) NOT NULL UNIQUE,
 	password VARCHAR(100) NOT NULL,
 	join_date TIMESTAMP NOT NULL DEFAULT NOW(),
-	meminfo_id INTEGER REFERENCES membership_info(meminfo_id) ON DELETE SET NULL
+	meminfo_id INTEGER REFERENCES membership_infos(meminfo_id) ON DELETE SET NULL
 );
 
 CREATE TABLE owners(
 	owner_id SERIAL PRIMARY KEY,
-	first_name VARCHAR(120) NOT NULL,
-	last_name VARCHAR(120) NOT NULL,
-	email VARCHAR(300) NOT NULL,
-	address VARCHAR(300) NOT NULL,
-	province VARCHAR(100) NOT NULL,
-	district VARCHAR(100) NOT NULL,
-	postcode postcode NOT NULL,
-	phone_number INTEGER NOT NULL,
+	first_name VARCHAR(40) NOT NULL,
+	last_name VARCHAR(40) NOT NULL,
+	email VARCHAR(120) NOT NULL,
+	address_id INTEGER REFERENCES address_infos(address_id) ON DELETE SET NULL,
 	acc_id INTEGER REFERENCES lemon_accounts(acc_id) NOT NULL
 );
 
 CREATE TABLE resturants(
 	rest_id SERIAL PRIMARY KEY,
 	rest_name VARCHAR(50) NOT NULL,
-	address VARCHAR(300) NOT NULL,
-	province VARCHAR(100) NOT NULL,
-	district VARCHAR(100) NOT NULL,
-	postcode postcode NOT NULL,
-	phone_number INTEGER,
+	address_id INTEGER REFERENCES address_infos(address_id) ON DELETE SET NULL,
 	isClosed bool DEFAULT false Not NULL,
-	acc_id INTEGER REFERENCES lemon_accounts(acc_id) ON DELETE RESTRICT NOT NULL
+	acc_id INTEGER REFERENCES lemon_accounts(acc_id) ON DELETE RESTRICT NOT NULL,
+	CONSTRAINT branch_name_unique UNIQUE (rest_name, acc_id)
+);
+
+CREATE TABLE contact_no(
+	contact_id SERIAL PRIMARY KEY,
+	no PHONE_NO NOT NULL,
+	owner_id INTEGER REFERENCES owners(owner_id) ON DELETE NO ACTION,
+	rest_id INTEGER REFERENCES resturants(rest_id) ON DELETE NO ACTION
 );
 
 CREATE TABLE rest_staffs(
 	staff_id SERIAL PRIMARY KEY,
-	name varchar(50) NOT NULL,
+	name varchar(90) NOT NULL,
 	login_password varchar(100),
-	avatar varchar(200) NOT NULL DEFAULT 'https://ucarecdn.com/e7c8905a-b16a-4aef-95f6-79ec09ce2f9a/cat30.jpg',
+	avatar TEXT NOT NULL DEFAULT 'https://ucarecdn.com/e7c8905a-b16a-4aef-95f6-79ec09ce2f9a/cat30.jpg',
 	isManager bool DEFAULT false,
-	rest_id integer REFERENCES resturants(rest_id) ON DELETE RESTRICT NOT NULL
+	phone_no PHONE_NO,
+	rest_id integer REFERENCES resturants(rest_id) ON DELETE RESTRICT NOT NULL,
+	UNIQUE (name, rest_id)
 );
 
 CREATE TABLE food_items(
