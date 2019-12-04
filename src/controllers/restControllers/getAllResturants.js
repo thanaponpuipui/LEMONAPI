@@ -7,8 +7,8 @@ const getAllResturants = (db) => async (req, res, next) => {
             'SELECT * FROM resturants WHERE acc_id = $1',
             [accId]
         )
-
-        const resData = [];
+        const message = rows.length <= 0 ? 'currently no resturant' : `successfuly get ${rows.length} branch`
+        const branch = [];
 
         for(let i = 0; i < rows.length; i++) {
             const { rest_name, rest_id } = rows[i];
@@ -16,7 +16,12 @@ const getAllResturants = (db) => async (req, res, next) => {
                 name: rest_name,
                 id: rest_id,
             }
-            resData.push(rest);
+            branch.push(rest);
+        }
+        const resData = {
+            flag: 'success',
+            message: message,
+            data: branch
         }
         res.status(200).json(resData);
     } catch (e) {
