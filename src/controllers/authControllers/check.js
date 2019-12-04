@@ -6,7 +6,7 @@ const check = (req, res, next) => {
     try {
         decodeToken = jwt.verify(token);
     } catch (e) {
-        e.errorCode = 401;
+        e.errorCode = 500;
         console.log(e);
         throw e;
     }
