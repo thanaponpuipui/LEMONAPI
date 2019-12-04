@@ -1,26 +1,39 @@
+const { sign } = require('../../utils/jwt');
+const { hash } = require('../../utils/crypt');
 const { addStaffValidate } = require('../../validation/tempValidate');
 
-const addStaff = (db) => async (req, res, next) => {
+const { insert } = require('../../models/staff/restStaffs.model');
+
+const addStaff = async (req, res, next) => {
     const { name, isManager, phoneNo, password, restId } = req.body;
+    const validateData =  { name, phoneNo, password, isManager };
+    
     try {
-        const { err } = addStaffValidate(req.body);
-        if (err) {
-            const error = new Error('validation error');
-            error.errorCode = '400';
-            throw error;
+        const hashPass = await hash(password);
+        const { error } = addStaffValidate(validateData);
+        if (error) {
+            const message = error.details[0].message.replace(/"/g, '');
+            const err = new Error(message);
+            err.errorCode = '400';
+            throw err;
         }
-        let queryText;
-        let insertValues;
-        if (!password) {
-            queryText = 'INSERT INTO rest_staffs(name, ismanager, phone_no, rest_id) values($1, $2, $3, $4)'
-            insertValues = [name, isManager, phoneNo, restId]
-        } else {
-            queryText = 'INSERT INTO rest_staffs(name, login_password, ismanager, phone_no, rest_id) values($1, $2, $3, $4, $5)'
-            insertValues = [name, password, isManager, phoneNo, restId]
+        const insertData = {
+            name,
+            isManager,
+            phoneNo,
+            password: hashPass,
         }
-        await db.query(queryText, insertValues);
+        const staffId = await insert(insertData, restId);
+        const staffToken = sign({staffId});
         const resData = {
+            flag: 'success',
             message:`${name} added`,
+            data: {
+                staffId: staffId,
+                staffName: name,
+                isManager: isManager,
+                staffToken: staffToken
+            }
         }
         res.status(200).json(resData);
     } catch (e) {

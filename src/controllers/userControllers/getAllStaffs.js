@@ -4,10 +4,10 @@ const getAllStaffs = (db) => async (req, res, next) => {
     try {
         const query = {
             text: `SELECT 
-                        staff_id as staffId,
+                        staff_id "staffId",
                         name,
                         avatar,
-                        ismanager as isManager
+                        ismanager "isManager"
                     FROM rest_staffs
                     WHERE rest_id = $1`,
             values: [restId],
@@ -18,7 +18,7 @@ const getAllStaffs = (db) => async (req, res, next) => {
             message = 'no staff found!'
         }
         const staffList = [];
-        rows.foreach(row => {
+        rows.forEach(row => {
             staffList.push(row);
         })
         const resData = {

@@ -1,11 +1,19 @@
+const { verify } = require('../../utils/jwt')
+
 const checkUserId = (db) => async (req, res, next) => {
-    const { staffId, restId } = req.query;
-    const sql = {
-        text: 'SELECT name, ismanager FROM rest_staffs WHERE staff_id = $1 AND rest_id = $2',
-        values: [staffId, restId],
-    }
+    const { staffToken, restId } = req.query;
+    let staffId
     try {
-        const { rows } = await db.query(sql);
+        const { staffId:id } = verify(staffToken);
+        staffId = id;
+    } catch (e) {
+        next(e);
+    }
+
+    const sql = 'SELECT name, ismanager FROM rest_staffs WHERE staff_id = $1 AND rest_id = $2';
+    const values = [staffId, restId];
+    try {
+        const { rows } = await db.query(sql, values);
         if (rows.length <= 0) {
             const err = new Error('staff not found!');
             err.errorCode = 400;
