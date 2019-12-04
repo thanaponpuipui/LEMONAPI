@@ -28,11 +28,16 @@ app.use('/order', orderRoute);
 app.use('/stock', stockRoute);
 
 app.use((err, req, res, next) => {
-    console.log('error handler')
+    console.log('error handler', err.message)
     if (!err.errorCode) {
         err.errorCode = 500;
     }
-    res.status(err.errorCode).json({message:err.message});
+    const resData = {
+        flag: 'error',
+        status: err.errorCode,
+        message: err.message,
+    }
+    res.status(err.errorCode).json(resData);
 })
 
 app.listen(process.env.PORT, () => {
