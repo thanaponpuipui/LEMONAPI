@@ -77,8 +77,10 @@ module.exports.addStaffValidate = (data) => {
       .alphanum()
       .min(6)
       .max(12)
+      .required(),
+    phoneNo: Joi.number()
+      .positive()
   })
-
   return schema.validate(data);
 }
 
