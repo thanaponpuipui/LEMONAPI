@@ -7,8 +7,11 @@ const lemondb = require('../database/lemondb');
 const checkUserId = require(getUserCon('checkUserId'));
 const getAllStaffs = require('../controllers/userControllers/getAllStaffs');
 const addStaff = require('../controllers/userControllers/addStaff');
+const loginStaff = require(getUserCon('loginStaff'));
 
-router.post('/', authCheck, addStaff(lemondb));
+router.post('/', authCheck, addStaff);
+
+router.post('/login', authCheck, loginStaff);
 
 router.get('/check', checkUserId(lemondb));
 
