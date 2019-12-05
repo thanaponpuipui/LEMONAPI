@@ -9,10 +9,10 @@ const AMOUNT = 'amount';
 const REMARK = 'remark';
 
 module.exports.orderFoods = {
-    ID,
-    ORDER,
-    FOOD,
-    REMARK,
-    AMOUNT,
-    TABLE,
-}
+  ID,
+  ORDER,
+  FOOD,
+  REMARK,
+  AMOUNT,
+  TABLE,
+};

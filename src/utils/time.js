@@ -1,9 +1,9 @@
 const moment = require('moment');
 
-function now () {
-    return moment().format();
+function now() {
+  return moment().format();
 }
 
 module.exports = {
-    now,
-}
+  now,
+};

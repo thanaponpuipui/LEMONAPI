@@ -3,7 +3,7 @@ const Joi = require('@hapi/joi');
 
 // @param {Object} data
 
-module.exports.loginValidation = (data) => {
+module.exports.loginValidation = data => {
   const schema = Joi.object({
     username: Joi.string()
       .alphanum()
@@ -15,10 +15,10 @@ module.exports.loginValidation = (data) => {
       .min(6)
       .max(20)
       .required(),
-  })
+  });
 
   return schema.validate(data);
-}
+};
 
 // register process seperatly
 // regist username and password + menbership for account
@@ -26,7 +26,7 @@ module.exports.loginValidation = (data) => {
 // assign resturant info for (can not be null)
 // contact info input seperate from register form
 
-module.exports.registerValidate = (data) => {
+module.exports.registerValidate = data => {
   // register field post body -
   // username, password, include password confirmed
   const schema = Joi.object({
@@ -40,13 +40,13 @@ module.exports.registerValidate = (data) => {
       .min(6)
       .max(20)
       .required(),
-    passwordConfirmed: Joi.ref('password')
-  })
+    passwordConfirmed: Joi.ref('password'),
+  });
 
   return schema.validate(data);
-}
+};
 
-module.exports.ownerInfoValidate = (data) => {
+module.exports.ownerInfoValidate = data => {
   const schema = Joi.object({
     firstName: Joi.string()
       .required()
@@ -56,21 +56,20 @@ module.exports.ownerInfoValidate = (data) => {
       .pattern(/\D{3,40}/),
     email: Joi.string()
       .required()
-      .email({ minDomainSegments: 2 })
-  })
+      .email({ minDomainSegments: 2 }),
+  });
 
   return schema.validate(data);
-}
+};
 
-module.exports.assignRest = (data) => {
+module.exports.assignRest = data => {
   // account id !important
   // all field cannot be null
-}
+};
 
-module.exports.addStaffValidate = (data) => {
+module.exports.addStaffValidate = data => {
   const schema = Joi.object({
-    name: Joi.string()
-      .required(),
+    name: Joi.string().required(),
     isManager: Joi.boolean(),
     password: Joi.string()
       .trim()
@@ -78,15 +77,13 @@ module.exports.addStaffValidate = (data) => {
       .min(6)
       .max(12)
       .required(),
-    phoneNo: Joi.number()
-      .positive()
-  })
+    phoneNo: Joi.number().positive(),
+  });
   return schema.validate(data);
-}
+};
 
-module.exports.addOrderValidation = (data) => {
+module.exports.addOrderValidation = data => {
   const schema = Joi.object({
     // object structure
-    
-  })
-}
+  });
+};

@@ -10,7 +10,6 @@ const ISMANAGER = 'ismanager';
 const PHONE_NO = 'phone_no';
 const REST_ID = 'rest_id';
 
-
 module.exports.restStaffs = {
   ID,
   NAME,
@@ -20,7 +19,7 @@ module.exports.restStaffs = {
   PHONE_NO,
   REST_ID,
   TABLE,
-}
+};
 
 module.exports.insert = async (data, restId) => {
   const { name, password, phoneNo, isManager } = data;
@@ -32,20 +31,19 @@ module.exports.insert = async (data, restId) => {
     ${REST_ID}
     )
     VALUES ($1, $2, $3, $4, $5)
-    RETURNING ${ID}`
+    RETURNING ${ID}`;
   const values = [name, password, phoneNo, isManager, restId];
-  try{
-    
+  try {
     const { rows } = await db.query(sql, values);
     const { staff_id } = rows[0];
     return staff_id;
   } catch (e) {
-    throw(e);
+    throw e;
   }
-}
+};
 
 module.exports.getOneStaff = async (staffId, restId) => {
-  console.log(staffId, restId)
+  console.log(staffId, restId);
   const sql = `SELECT
     ${NAME},
     ${PASSWORD},
@@ -58,8 +56,8 @@ module.exports.getOneStaff = async (staffId, restId) => {
   try {
     const { rows } = await db.query(sql, values);
     if (rows.length <= 0) {
-      console.log('staff empty')
-      return {}
+      console.log('staff empty');
+      return {};
     }
     const {
       name: name,
@@ -67,14 +65,14 @@ module.exports.getOneStaff = async (staffId, restId) => {
       phone_no: phoneNo,
       ismanager: isManager,
     } = rows[0];
-    
+
     return {
       name,
       password,
       phoneNo,
       isManager,
-    }
+    };
   } catch (e) {
-    throw(e);
+    throw e;
   }
-}
+};

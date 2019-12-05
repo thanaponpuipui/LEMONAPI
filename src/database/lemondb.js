@@ -13,18 +13,18 @@ const Pool = require('pg').Pool;
 let databaseConfig;
 
 if (process.env.NODE_ENV === 'production') {
-    databaseConfig = {
-        connectionString: process.env.DATABASE_URL,
-        ssl: true,
-    }
+  databaseConfig = {
+    connectionString: process.env.DATABASE_URL,
+    ssl: true,
+  };
 } else {
-    databaseConfig = {
-        host: 'localhost',
-        user: process.env.DB_USER,
-        database: 'lemondb',
-        password: process.env.DB_PASSWORD,
-        port: 5432,
-      }
+  databaseConfig = {
+    host: 'localhost',
+    user: process.env.DB_USER,
+    database: 'lemondb',
+    password: process.env.DB_PASSWORD,
+    port: 5432,
+  };
 }
 
 const pool = new Pool(databaseConfig);

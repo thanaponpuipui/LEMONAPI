@@ -4,7 +4,7 @@ const cors = require('cors');
 const morgan = require('morgan');
 
 if (process.env.NODE_ENV !== 'production') {
-    require('dotenv').config();
+  require('dotenv').config();
 }
 
 // routes
@@ -28,18 +28,18 @@ app.use('/order', orderRoute);
 app.use('/stock', stockRoute);
 
 app.use((err, req, res, next) => {
-    console.log('error handler', err.message)
-    if (!err.errorCode) {
-        err.errorCode = 500;
-    }
-    const resData = {
-        flag: 'error',
-        status: err.errorCode,
-        message: err.message,
-    }
-    res.status(err.errorCode).json(resData);
-})
+  console.log('error handler', err.message);
+  if (!err.errorCode) {
+    err.errorCode = 500;
+  }
+  const resData = {
+    flag: 'error',
+    status: err.errorCode,
+    message: err.message,
+  };
+  res.status(err.errorCode).json(resData);
+});
 
 app.listen(process.env.PORT, () => {
-    console.log(`${process.env.NODE_ENV} server run on port ${process.env.PORT}`);
+  console.log(`${process.env.NODE_ENV} server run on port ${process.env.PORT}`);
 });

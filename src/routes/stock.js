@@ -9,9 +9,9 @@ const addIngredient = require(getStockCon('addIngredient'));
 const addNewMenu = require(getStockCon('addNewMenu'));
 const getAllMenus = require(getStockCon('getAllMenus'));
 
-route.get('/ingredient', authCheck, getAllStock(lemondb));
+route.get('/ingredient/:id', authCheck, getAllStock(lemondb));
 
-route.post('/ingredient', authCheck, addIngredient(lemondb));
+route.post('/ingredient', authCheck, addIngredient);
 
 route.get('/food', authCheck, getAllMenus);
 

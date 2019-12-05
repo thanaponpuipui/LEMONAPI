@@ -8,7 +8,7 @@ const loginStaff = async (req, res, next) => {
   try {
     const staff = await getOneStaff(staffId, restId);
     const { password: hash, name, isManager } = staff;
-    console.log(staff)
+    console.log(staff);
     if (!hash) {
       const err = new Error('no staff found');
       err.errorCode = 400;
@@ -21,7 +21,7 @@ const loginStaff = async (req, res, next) => {
       throw err;
     }
 
-    const token = sign({staffId});
+    const token = sign({ staffId });
     const resData = {
       flag: 'success',
       message: 'staff successfully login',
@@ -31,11 +31,11 @@ const loginStaff = async (req, res, next) => {
         staffId: staffId,
         isManager: isManager,
       },
-    }
+    };
     res.status(200).json(resData);
   } catch (e) {
     next(e);
   }
-}
+};
 
 module.exports = loginStaff;
