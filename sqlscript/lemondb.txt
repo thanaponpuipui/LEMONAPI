@@ -24,6 +24,8 @@ CREATE TABLE membership_infos(
 CREATE TABLE address_infos(
 	address_id SERIAL PRIMARY KEY,
 	address VARCHAR(300) NOT NULL,
+	address2 VARCHAR(300),
+	sub_district VARCHAR(100) NOT NULL,
 	province VARCHAR(100) NOT NULL,
 	district VARCHAR(100) NOT NULL,
 	postcode postcode NOT NULL
@@ -41,7 +43,7 @@ CREATE TABLE owners(
 	owner_id SERIAL PRIMARY KEY,
 	first_name VARCHAR(40) NOT NULL,
 	last_name VARCHAR(40) NOT NULL,
-	email VARCHAR(120) NOT NULL,
+	email VARCHAR(120),
 	address_id INTEGER REFERENCES address_infos(address_id) ON DELETE SET NULL,
 	acc_id INTEGER REFERENCES lemon_accounts(acc_id) NOT NULL
 );

@@ -3,7 +3,7 @@ const getAllResturants = db => async (req, res, next) => {
   const accId = req.accId;
   // find all acc's rest from db
   try {
-    const { rows } = await db.query('SELECT * FROM resturants WHERE acc_id = $1', [accId]);
+    const { rows } = await db.query('SELECT * FROM resturants WHERE acc_id = $1 AND isclosed = false', [accId]);
     const message =
       rows.length <= 0 ? 'currently no resturant' : `successfuly get ${rows.length} branch`;
     const branch = [];
