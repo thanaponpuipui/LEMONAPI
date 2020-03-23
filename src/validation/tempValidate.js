@@ -40,7 +40,7 @@ module.exports.registerValidate = data => {
       .min(6)
       .max(20)
       .required(),
-    passwordConfirmed: Joi.ref('password'),
+    passwordConfirm: Joi.ref('password'),
   });
 
   return schema.validate(data);
@@ -55,7 +55,7 @@ module.exports.ownerInfoValidate = data => {
       .required()
       .pattern(/\D{3,40}/),
     email: Joi.string()
-      .required()
+      .empty('')
       .email({ minDomainSegments: 2 }),
   });
 
