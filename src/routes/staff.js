@@ -1,20 +1,14 @@
 const router = require('express').Router();
 const authCheck = require('../middlewares/authorization');
-const getUserCon = require('../controllers/getConPath')('user');
-// database
-const lemondb = require('../database/lemondb');
 // controllers
-const checkUserId = require(getUserCon('checkUserId'));
-const getAllStaffs = require('../controllers/userControllers/getAllStaffs');
-const addStaff = require('../controllers/userControllers/addStaff');
-const loginStaff = require(getUserCon('loginStaff'));
+const {checkUserId,getAllStaffs,getOwnerStaff,loginStaffNoPass} = require('../controllers/staffControllers');
 
-router.post('/', authCheck, addStaff);
+router.post('/login-no-pass', authCheck, loginStaffNoPass);
 
-router.post('/login', authCheck, loginStaff);
+router.get('/check', checkUserId);
 
-router.get('/check', checkUserId(lemondb));
+router.get('/owner', authCheck, getOwnerStaff);
 
-router.get('/:restId', authCheck, getAllStaffs(lemondb));
+router.get('/', authCheck, getAllStaffs);
 
 module.exports = router;

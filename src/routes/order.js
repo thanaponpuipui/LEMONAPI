@@ -1,15 +1,10 @@
 const route = require('express').Router();
 const authCheck = require('../middlewares/authorization');
-const getOrderCon = require('../controllers/getConPath')('order');
 
-const addNewOrder = require(getOrderCon('addNewOrder'));
-const getAllCurrentOrder = require(getOrderCon('getAllCurrentOrder'));
-const orderCheckout = require(getOrderCon('orderCheckout'));
+const { addNewOrder, getAllCurrentOrders } = require('../controllers/orderControllers');
 
 route.post('/', authCheck, addNewOrder);
 
-route.get('/', authCheck, getAllCurrentOrder);
-
-route.patch('/:id', authCheck, orderCheckout);
+route.get('/all', authCheck, getAllCurrentOrders);
 
 module.exports = route;
