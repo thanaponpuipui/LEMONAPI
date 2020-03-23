@@ -21,7 +21,7 @@ if (process.env.NODE_ENV === 'production') {
   databaseConfig = {
     host: 'localhost',
     user: process.env.DB_USER,
-    database: 'lemondb',
+    database: 'testlemon',
     password: process.env.DB_PASSWORD,
     port: 5432,
   };
