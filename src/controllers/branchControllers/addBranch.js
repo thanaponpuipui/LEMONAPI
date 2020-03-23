@@ -1,5 +1,5 @@
 const addRest = db => async (req, res, next) => {
-  const accId = req.accId;
+  const accId = req.accountId;
   const { restName } = req.body;
   console.log(restName);
 

@@ -4,11 +4,11 @@
  */
 
 const checkRestId = db => async (req, res, next) => {
-  const { restId, accId } = req.query;
+  const { branchId, accountId } = req.query;
   // validation pending
   const sql = {
-    text: 'SELECT rest_name FROM resturants WHERE rest_id = $1 AND acc_id = $2',
-    values: [restId, accId],
+    text: 'SELECT branch_name FROM branches WHERE branch_id = $1 AND account_id = $2',
+    values: [branchId, accountId],
   };
   try {
     const { rows } = await db.query(sql);
@@ -17,10 +17,10 @@ const checkRestId = db => async (req, res, next) => {
       err.errorCode = 400;
       throw err;
     }
-    const { rest_name } = rows[0];
+    const { branch_name } = rows[0];
     const resData = {
-      branchId: restId,
-      branchName: rest_name,
+      id: branchId,
+      name: branch_name,
     };
     res.status(200).json(resData);
   } catch (e) {

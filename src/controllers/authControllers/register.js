@@ -1,25 +1,39 @@
 const crypt = require('../../utils/crypt');
-const jwt = require('../../utils/jwt');
 const { userVerifier } = require('../../utils/userVerifier');
-const time = require('../../utils/time');
 
 const { registerValidate, ownerInfoValidate } = require('../../validation/tempValidate');
+const { addressValidate, addressIsUndefined } = require('../../validation/address');
+const { phoneNumberValidate, phoneNumberIsUndefined } = require('../../validation/phoneNumber');
+
+const { insertAddress } = require('../../models/addresses');
+const { insertContactNo }= require('../../models/contactNo')
+const { insertAccount } = require('../../models/accounts/');
+const { insertOwner, insertOwnerContactNo } = require('../../models/owners');
+const { insertBranch, insertBranchContactNo } = require('../../models/branches');
+const { insertOwnerAsStaff } = require('../../models/staffs');
+const { insertMemberStatus } = require('../../models/membershipStatus');
 
 const register = db => async (req, res, next) => {
   let client;
-  console.log('start');
   try {
-    console.log('try block');
-    const { username, password, passwordConfirmed } = req.body;
-    const { firstName, lastName, email } = req.body;
-
+    const {
+      firstName,
+      lastName,
+      username,
+      password,
+      passwordConfirm,
+      email,
+      restName,
+      contactNo,
+      restContactNo,
+      address,
+      restAddress,
+      isSameAddress,
+    } = req.body;
     // validation
-    const { error: registerInvalid } = registerValidate({ username, password, passwordConfirmed });
+    const { error: registerInvalid } = registerValidate({ username, password, passwordConfirm });
     const { error: ownerInfoInvalid } = ownerInfoValidate({ firstName, lastName, email });
     const verify = userVerifier(db);
-    // use client for tranx
-    let currentDateAndTime = time.now();
-    client = await db.connect();
 
     if (registerInvalid) {
       console.log(registerInvalid);
@@ -33,52 +47,98 @@ const register = db => async (req, res, next) => {
     const isExist = await verify(username);
     if (isExist) {
       const err = new Error('username is already used');
-      err.code = 400;
+      err.errorCode = 400;
       throw err;
     }
-    // create transaction
-    await client.query('BEGIN');
-    // hash password
+
+    client = await db.connect();
     const hash = await crypt.hash(password);
-    // insert username and password in database
-    const { rows: id } = await client.query(
-      `INSERT INTO 
-             lemon_accounts(login_name, password, join_date, meminfo_id)
-             VALUES($1, $2, $3, $4)
-             RETURNING acc_id`,
-      [username, hash, currentDateAndTime, null],
-    );
-    const { acc_id: accId } = id[0];
-    // owner info
-    await client.query(
-      `INSERT INTO owners(
-             first_name,
-             last_name,
-             email,
-             acc_id)
-             VALUES($1, $2, $3, $4)`,
-      [firstName, lastName, email, accId],
-    );
-    await client.query('COMMIT');
-    // response
-    const token = jwt.sign({ accId, username });
+    
+    // create transaction
+    try {
+      await client.query('BEGIN');
+
+      let addressId;
+      let restAddressId;
+      let contactNoId;
+      let restContactNoId;
+      let status = 'pending';
+      let memberTier = 'demo';
+      if (memberTier === 'demo' || memberTier === 'free') status = 'current'
+      // address optional
+      if (!addressIsUndefined(address)) {
+        const {error} = addressValidate(address);
+        if (error) throw error;
+        addressId = await insertAddress(address, client);
+      }
+
+      if (!addressIsUndefined(restAddress)) {
+        if (!isSameAddress) {
+          const {error} = addressValidate(restAddress);
+          if (error) throw error;
+          restAddressId = await insertAddress(restAddress, client);
+        } else {
+          restAddressId = addressId;
+        }
+      }
+      // required
+      const ownerId = await insertOwner({firstName, lastName, email, addressId}, client);
+      const accountId = await insertAccount({username, hash, restName, ownerId}, client);
+      const statusId = await insertMemberStatus({accountId, memberTier, status}, client);
+      const branchId = await insertBranch({accountId, addressId:restAddressId, branchName:restName}, client);
+      const staffId = await insertOwnerAsStaff({accountId, firstName, lastName}, client);
+      // contactNo optional
+      if (!phoneNumberIsUndefined(contactNo)) {
+        const {error} = phoneNumberValidate(contactNo)
+        if (error) throw error;
+        contactNoId = await insertContactNo({number:contactNo}, client);
+        await insertOwnerContactNo({ownerId, contactNoId, isMain:true}, client);
+      }
+
+      if (!phoneNumberIsUndefined(restContactNo)) {
+        const {error} = phoneNumberValidate(restContactNo);
+        if (error) throw error;
+        restContactNoId = await insertContactNo({number:restContactNo}, client);
+        await insertBranchContactNo({branchId, contactNoId:restContactNoId, isMain:true}, client);
+      }
+      
+      await client.query('COMMIT');
+      const log = {
+        accountId,
+        ownerId,
+        addressId,
+        restAddressId,
+        contactNoId,
+        restAddressId,
+        restContactNoId,
+        staffId,
+        statusId,
+        branchId,
+      }
+      console.log(log);
+    } catch (trxError) {
+      try {
+        await client.query('ROLLBACK');
+      } catch (er) {
+        throw er
+      }
+      throw trxError;
+    } finally {
+      client.release();
+    }
+    
+    // const token = jwt.sign({ accountId, username });
+    // const staffToken = jwt.sign({staffId})
+
     // response data for auth state
     const resData = {
-      accId,
-      username,
-      token,
+      flag: 'success',
+      message: 'register success!',
     };
     res.status(200).json(resData);
   } catch (e) {
-    try {
-      await client.query('ROLLBACK');
-    } catch (er) {
-      console.trance(er);
-    }
-    console.trace(e);
+    console.error(e);
     next(e);
-  } finally {
-    client.release();
   }
 };
 

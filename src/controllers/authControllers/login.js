@@ -28,12 +28,13 @@ const login = db => async (req, res, next) => {
       throw error;
     }
     // if pass response with token, id, login name
-    const { acc_id: accId } = account;
+    const { account_id, restaurant_name } = account;
 
-    const token = jwt.sign({ accId, username });
+    const token = jwt.sign({ accountId: account_id, username });
 
     const resData = {
-      accId,
+      accountId: account_id,
+      restaurantName: restaurant_name,
       username,
       token,
     };
