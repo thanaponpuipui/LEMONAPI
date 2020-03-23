@@ -69,13 +69,13 @@ class Products extends Model {
     const values = [productId];
     try {
       const { rows } = await db.query(sql, values);
-      const product = {
+      const product = rows[0] ? {
         id: productId,
         name: rows[0].product_name,
         imageUrl: rows[0].product_image,
         price: rows[0].price,
         info: rows[0].info,
-      }
+      } : null;
       return product
     } catch (e) {
       throw e;
