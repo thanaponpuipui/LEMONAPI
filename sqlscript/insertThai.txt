@@ -1,0 +1,5 @@
+INSERT INTO tags(tag_name_eng, tag_name_th) VALUES('Recommend', 'เมนูแนะนำ');
+INSERT INTO tags(tag_name_eng, tag_name_th) VALUES('Food', 'อาหาร');
+INSERT INTO tags(tag_name_eng, tag_name_th) VALUES('Dessert', 'ของหวาน');
+INSERT INTO tags(tag_name_eng, tag_name_th) VALUES('Drink', 'เครื่องดื่ม');
+INSERT INTO tags(tag_name_eng, tag_name_th) VALUES('Promotion', 'โปรโมชั่น');
