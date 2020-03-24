@@ -18,8 +18,7 @@ module.exports = addNewMenu = async (req, res, next) => {
 
     // const client = await db.connect();
     const transaction = new Transaction()
-    await transaction.initTransaction();
-    const client = transaction.getClient();
+    const client = await transaction.initTransaction();
     try {
       await transaction.startTransaction();
       const productId = await insertProduct({
