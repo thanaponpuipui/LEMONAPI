@@ -39,6 +39,7 @@ const login = db => async (req, res, next) => {
       restaurantName: restaurant_name,
       username,
       token,
+      id:account_id,
     };
     const response = {
       flag:'success',
