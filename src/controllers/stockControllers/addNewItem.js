@@ -1,10 +1,10 @@
 const db = require('../../database/lemondb');
 const { insertBranchItem } = require('../../models/branches');
-const { insertItem } = require('../../models/stock');
+const { insertStockItem } = require('../../models/stock');
 const noSecialStringValidate = require('../../validation/utils/noSpecialString');
 
 const addNewItem = async (req, res, next) => {
-  const { name, branchId  } = req.body;
+  const { name, branchId, unit, amount } = req.body;
   const accountId = req.accountId;
   try {
     const {error, value} = noSecialStringValidate(name);
@@ -18,7 +18,7 @@ const addNewItem = async (req, res, next) => {
     try {
       // start database trax
       await client.query('BEGIN');
-      const itemId = await insertItem({itemName:value, accountId}, client);
+      const itemId = await insertStockItem({itemName:value, accountId, unit, amount}, client);
       await insertBranchItem({itemId, branchId}, client);
       await client.query('COMMIT');
     } catch (trxError) {
