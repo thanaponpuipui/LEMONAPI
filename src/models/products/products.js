@@ -83,6 +83,8 @@ class Products extends Model {
   }
 }
 
+module.exports.Products = Products;
+
 module.exports.insertProduct = async ({
   accountId,
   name,

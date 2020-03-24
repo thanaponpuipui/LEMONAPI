@@ -1,37 +1,45 @@
-const db = require('../../database/lemondb');
+const Transaction = require('../../models/transaction');
 
 const { insertBranchProduct } = require('../../models/branches');
-const { insertProduct } = require('../../models/products');
+const { insertProduct, insertStockConsume } = require('../../models/products');
 const escapedHtml = require('../../validation/utils/escapeHtml');
 
 module.exports = addNewMenu = async (req, res, next) => {
-  const { branchId, name, price, info, imageUrl } = req.body;
+  const { branchId, name, price, info, imageUrl, stockUsage } = req.body;
   const accountId = req.accountId;
+  if (stockUsage && !Array.isArray(stockUsage)) {
+    const err = new Error('bad request!');
+    err.errorCode = 400;
+    next(err);
+  }
   try {
     const infoEscaped = info ? escapedHtml(info) : null;
     const nameEscaped = escapedHtml(name);   
 
-    const client = await db.connect();
+    // const client = await db.connect();
+    const transaction = new Transaction()
+    await transaction.initTransaction();
+    const client = transaction.getClient();
     try {
-      await client.query('BEGIN');
+      await transaction.startTransaction();
       const productId = await insertProduct({
         accountId, 
         name:nameEscaped,
         imageUrl,
         price,
-        info:infoEscaped
+        info:infoEscaped,
       }, client);
+      stockUsage.forEach(stock => {
+        const {amount, id}
+        await insertStockConsume({productId, amount, itemId:id}, client);
+      })
       await insertBranchProduct({branchId, productId}, client);
-      await client.query('COMMIT');
+      await transaction.endTransaction();
     } catch (trxErr) {
-      try {
-        await client.query('ROLLBACK');
-      } catch (er) {
-        throw er;
-      }
-      throw trxErr
+      await transaction.Rollback();
+      throw trxErr;
     } finally {
-      client.release();
+      transaction.release();
     }
 
     const resData = {

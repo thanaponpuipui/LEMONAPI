@@ -12,7 +12,7 @@ class Transaction {
 
   async initTransaction () {
     this.client = await db.connect();
-    return getClient();
+    return this.getClient();
   }
 
   async startTransaction () {
