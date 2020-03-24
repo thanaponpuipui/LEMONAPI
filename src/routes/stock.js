@@ -2,9 +2,10 @@ const route = require('express').Router();
 
 const authCheck = require('../middlewares/authorization');
 
-const getStockCon = require('../controllers/getConPath')('stock');
-const addNewStock = require(getStockCon('addNewItem'));
+const { addNewItem, getAllItem } = require('../controllers/stockControllers');
 
-route.post('/', authCheck, addNewStock);
+route.post('/', authCheck, addNewItem);
+
+route.get('/', authCheck, getAllItem)
 
 module.exports = route;
