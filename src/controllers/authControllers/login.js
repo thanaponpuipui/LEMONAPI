@@ -32,14 +32,20 @@ const login = db => async (req, res, next) => {
 
     const token = jwt.sign({ accountId: account_id, username });
 
-    const resData = {
+    const data = {
       accountId: account_id,
       restaurantName: restaurant_name,
       username,
       token,
     };
+    const response = {
+      flag:'success',
+      message:'login complete',
+      data,
+    }
+    console.log(response);
 
-    res.status(200).json(resData);
+    res.status(200).json(response);
   } catch (err) {
     next(err);
   }
