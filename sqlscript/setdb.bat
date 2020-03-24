@@ -21,4 +21,4 @@ goto end
 echo program end without reset the database
 
 :end
-exit 0
+pause
