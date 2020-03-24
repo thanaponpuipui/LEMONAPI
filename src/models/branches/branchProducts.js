@@ -1,10 +1,6 @@
 const db = require('../../database/lemondb');
 
-module.exports.insertBranchProduct = async ({
-  branchId,
-  productId,
-  price,
-}, client=db) => {
+module.exports.insertBranchProduct = async ({ branchId, productId, price }, client = db) => {
   const sql = `
     INSERT INTO branch_product(
       branch_id,
@@ -23,9 +19,9 @@ module.exports.insertBranchProduct = async ({
   } catch (e) {
     throw e;
   }
-}
+};
 
-module.exports.selectAllBranchProducts = async ({branchId}, client=db) => {
+module.exports.selectAllBranchProducts = async ({ branchId }, client = db) => {
   const sql = `
     SELECT
       p.product_id,
@@ -54,10 +50,10 @@ module.exports.selectAllBranchProducts = async ({branchId}, client=db) => {
         branchPrice: row.branchPrice,
       };
       productList.push(product);
-    })
+    });
 
     return productList;
   } catch (e) {
     throw e;
   }
-}
+};

@@ -4,7 +4,7 @@ module.exports = async (req, res, next) => {
   try {
     const { branchId } = req.query;
 
-    const products = await selectAllBranchProducts({branchId});
+    const products = await selectAllBranchProducts({ branchId });
 
     const resData = {
       flag: 'success',

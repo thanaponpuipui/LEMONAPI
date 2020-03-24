@@ -1,6 +1,6 @@
 const db = require('../../database/lemondb');
 
-module.exports = async ({branchId}, client=db) => {
+module.exports = async ({ branchId }, client = db) => {
   const sql = `
     SELECT
       order_id,
@@ -9,7 +9,7 @@ module.exports = async ({branchId}, client=db) => {
     FROM sale_orders
     WHERE closed_time IS NULL and branch_id = $1
     ORDER BY ordered_time
-  `
+  `;
   const values = [branchId];
   try {
     const { rows } = await client.query(sql, values);
@@ -19,11 +19,11 @@ module.exports = async ({branchId}, client=db) => {
         id: row.order_id,
         type: row.order_type,
         orderedTime: row.ordered_time,
-      }
+      };
       orders.push(order);
-    })
+    });
     return orders;
   } catch (e) {
     throw e;
   }
-}
+};

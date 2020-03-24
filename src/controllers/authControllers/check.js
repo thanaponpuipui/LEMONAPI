@@ -11,9 +11,9 @@ const check = async (req, res, next) => {
     next(e);
   }
   const { accountId, username } = decodeToken;
-  let restaurantName
+  let restaurantName;
   try {
-    restaurantName = await selectRestaurantName({accountId});
+    restaurantName = await selectRestaurantName({ accountId });
   } catch (e) {
     next(e);
   }
@@ -28,7 +28,7 @@ const check = async (req, res, next) => {
     flag: 'success',
     message: 'login success',
     data,
-  }
+  };
 
   return res.status(200).json(resData);
 };

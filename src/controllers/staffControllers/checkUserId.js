@@ -5,14 +5,14 @@ const checkUserId = async (req, res, next) => {
   try {
     const verifiedToken = verify(staffToken);
     const staff = {
-      id:verifiedToken.id,
-      name:verifiedToken.name,
-      position:verifiedToken.position,
-    }
+      id: verifiedToken.id,
+      name: verifiedToken.name,
+      position: verifiedToken.position,
+    };
     const resData = {
       flag: 'success',
       message: `welcome`,
-      data: staff
+      data: staff,
     };
 
     res.status(200).json(resData);

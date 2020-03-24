@@ -1,3 +1,3 @@
 const staffsModel = require('./staffs');
 
-module.exports = {...staffsModel}
+module.exports = { ...staffsModel };

@@ -12,7 +12,7 @@ const OWNER = 'owner_id';
 // ref id for membership level
 // const MEMBER = 'meminfo_id';
 
-module.exports.insertAccount = async (data, client=db) => {
+module.exports.insertAccount = async (data, client = db) => {
   const { username, hash, restName, ownerId } = data;
   const sql = `INSERT INTO ${TABLE}(
     ${NAME},
@@ -35,14 +35,14 @@ module.exports.insertAccount = async (data, client=db) => {
   } catch (e) {
     throw e;
   }
-}
+};
 
-module.exports.selectRestaurantName = async ({accountId}, client=db) => {
+module.exports.selectRestaurantName = async ({ accountId }, client = db) => {
   const sql = `
     SELECT restaurant_name
     FROM accounts
     WHERE account_id = $1
-  `
+  `;
   const values = [accountId];
   try {
     const { rows } = await client.query(sql, values);
@@ -51,4 +51,4 @@ module.exports.selectRestaurantName = async ({accountId}, client=db) => {
   } catch (e) {
     throw e;
   }
-}
+};

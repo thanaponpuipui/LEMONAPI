@@ -11,14 +11,17 @@ const db = require('../../database');
 */
 
 class Products extends Model {
-  constructor ({
-    id,
-    accountId,
-    name,
-    imageUrl='https://ucarecdn.com/fa297ebd-50d8-4dcf-add4-821ba8af2b51/photoofalandscape.png',
-    price=0,
-    info
-  }, client) {
+  constructor(
+    {
+      id,
+      accountId,
+      name,
+      imageUrl = 'https://ucarecdn.com/fa297ebd-50d8-4dcf-add4-821ba8af2b51/photoofalandscape.png',
+      price = 0,
+      info,
+    },
+    client,
+  ) {
     super(client);
     this.id = id;
     this.accountId = accountId;
@@ -28,7 +31,7 @@ class Products extends Model {
     this.info = info;
   }
 
-  async insertProduct () {
+  async insertProduct() {
     const sql = `
       INSERT INTO products(
         account_id,
@@ -56,7 +59,7 @@ class Products extends Model {
     }
   }
 
-  static async getProduct({productId}) {
+  static async getProduct({ productId }) {
     const sql = `
       SELECT
         product_name,
@@ -69,14 +72,16 @@ class Products extends Model {
     const values = [productId];
     try {
       const { rows } = await db.query(sql, values);
-      const product = rows[0] ? {
-        id: productId,
-        name: rows[0].product_name,
-        imageUrl: rows[0].product_image,
-        price: rows[0].price,
-        info: rows[0].info,
-      } : null;
-      return product
+      const product = rows[0]
+        ? {
+            id: productId,
+            name: rows[0].product_name,
+            imageUrl: rows[0].product_image,
+            price: rows[0].price,
+            info: rows[0].info,
+          }
+        : null;
+      return product;
     } catch (e) {
       throw e;
     }
@@ -85,13 +90,16 @@ class Products extends Model {
 
 module.exports.Products = Products;
 
-module.exports.insertProduct = async ({
-  accountId,
-  name,
-  imageUrl='https://ucarecdn.com/fa297ebd-50d8-4dcf-add4-821ba8af2b51/photoofalandscape.png',
-  price=0,
-  info,
-}, client=db) => {
+module.exports.insertProduct = async (
+  {
+    accountId,
+    name,
+    imageUrl = 'https://ucarecdn.com/fa297ebd-50d8-4dcf-add4-821ba8af2b51/photoofalandscape.png',
+    price = 0,
+    info,
+  },
+  client = db,
+) => {
   const sql = `
     INSERT INTO products(
       account_id,
@@ -117,4 +125,4 @@ module.exports.insertProduct = async ({
   } catch (e) {
     throw e;
   }
-}
+};

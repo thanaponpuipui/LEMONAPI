@@ -1,7 +1,7 @@
 const db = require('../../database/lemondb');
 const time = require('../../utils/time');
 
-module.exports.checkout = async ({orderId}, client=db) => {
+module.exports.checkout = async ({ orderId }, client = db) => {
   const current = time.now();
   const sql = `UPDATE sale_orders
                 SET closed_time = $1
@@ -24,7 +24,7 @@ module.exports.checkout = async ({orderId}, client=db) => {
   }
 };
 
-module.exports.insertSaleOrder = async ({branchId, orderType}, client=db) => {
+module.exports.insertSaleOrder = async ({ branchId, orderType }, client = db) => {
   const sql = `
   INSERT INTO sale_orders(
     branch_id,
@@ -46,4 +46,4 @@ module.exports.insertSaleOrder = async ({branchId, orderType}, client=db) => {
   } catch (e) {
     throw e;
   }
-}
+};

@@ -8,11 +8,11 @@ const addNewOrder = async (req, res, next) => {
 
     const client = await db.connect();
     try {
-      const orderId = await insertSaleOrder({branchId, orderType}, client);
+      const orderId = await insertSaleOrder({ branchId, orderType }, client);
       const promises = [];
       products.forEach(product => {
-        const {amount, productId} = product;
-        const process = insertOrderProduct({orderId, productId, amount}, client);
+        const { amount, productId } = product;
+        const process = insertOrderProduct({ orderId, productId, amount }, client);
         promises.push(process);
       });
       await Promise.all(promises);

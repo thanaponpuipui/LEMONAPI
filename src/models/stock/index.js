@@ -1,3 +1,3 @@
 const stockItemModel = require('./stockItem');
 
-module.exports = {...stockItemModel};
+module.exports = { ...stockItemModel };

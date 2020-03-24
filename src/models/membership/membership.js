@@ -7,7 +7,7 @@ const TIER = 'tier';
 const PRICE = 'price';
 const DESC = 'description';
 
-module.exports.getMemberTierId = async ({memberTier}, client=db) => {
+module.exports.getMemberTierId = async ({ memberTier }, client = db) => {
   const sql = `SELECT ${ID} FROM ${TABLE} WHERE ${TIER} = $1`;
   const values = [memberTier];
   try {
@@ -21,4 +21,4 @@ module.exports.getMemberTierId = async ({memberTier}, client=db) => {
   } catch (e) {
     throw e;
   }
-}
+};

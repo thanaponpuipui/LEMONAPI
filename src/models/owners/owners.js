@@ -8,7 +8,6 @@ const LAST_NAME = 'last_name';
 const EMAIL = 'email';
 const ADDRESS_ID = 'address_id';
 
-
 module.exports.owners = {
   TABLE,
   FIRST_NAME,
@@ -16,15 +15,10 @@ module.exports.owners = {
   EMAIL,
   ADDRESS_ID,
   ID,
-}
+};
 
-module.exports.insertOwner = async (data, client=db) => {
-  const {
-    firstName,
-    lastName,
-    email,
-    addressId,
-  } = data;
+module.exports.insertOwner = async (data, client = db) => {
+  const { firstName, lastName, email, addressId } = data;
 
   const sql = `INSERT INTO ${TABLE}(
     ${FIRST_NAME},
@@ -35,12 +29,7 @@ module.exports.insertOwner = async (data, client=db) => {
   VALUES($1, $2, $3, $4)
   RETURNING ${ID}`;
 
-  const values = [
-    firstName,
-    lastName,
-    email || null,
-    addressId || null,
-  ];
+  const values = [firstName, lastName, email || null, addressId || null];
   try {
     const { rows } = await client.query(sql, values);
     if (rows.length < 1) {
@@ -53,9 +42,12 @@ module.exports.insertOwner = async (data, client=db) => {
   } catch (e) {
     throw e;
   }
-}
+};
 
-module.exports.insertOwnerContactNo = async ({ ownerId, contactNoId, isMain=false }, client=db) => {
+module.exports.insertOwnerContactNo = async (
+  { ownerId, contactNoId, isMain = false },
+  client = db,
+) => {
   const sql = `
     INSERT INTO owner_contact_no(
       owner_id,
@@ -71,8 +63,7 @@ module.exports.insertOwnerContactNo = async ({ ownerId, contactNoId, isMain=fals
   const values = [ownerId, contactNoId, isMain];
   try {
     await client.query(sql, values);
-    
   } catch (e) {
     throw e;
   }
-}
+};

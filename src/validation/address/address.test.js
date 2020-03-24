@@ -7,7 +7,7 @@ const testAddress = {
   district: '',
   province: '',
   postcode: '',
-}
+};
 
 const test = async () => {
   try {
@@ -18,13 +18,13 @@ const test = async () => {
       if (error) {
         throw error;
       }
-      console.log(value)
-      return 
+      console.log(value);
+      return;
     }
-    console.log('address empty:', isEmpty)
+    console.log('address empty:', isEmpty);
   } catch (e) {
     console.error(e);
   }
-}
+};
 
-test()
+test();

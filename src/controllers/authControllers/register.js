@@ -6,7 +6,7 @@ const { addressValidate, addressIsUndefined } = require('../../validation/addres
 const { phoneNumberValidate, phoneNumberIsUndefined } = require('../../validation/phoneNumber');
 
 const { insertAddress } = require('../../models/addresses');
-const { insertContactNo }= require('../../models/contactNo')
+const { insertContactNo } = require('../../models/contactNo');
 const { insertAccount } = require('../../models/accounts/');
 const { insertOwner, insertOwnerContactNo } = require('../../models/owners');
 const { insertBranch, insertBranchContactNo } = require('../../models/branches');
@@ -53,7 +53,7 @@ const register = db => async (req, res, next) => {
 
     client = await db.connect();
     const hash = await crypt.hash(password);
-    
+
     // create transaction
     try {
       await client.query('BEGIN');
@@ -64,17 +64,17 @@ const register = db => async (req, res, next) => {
       let restContactNoId;
       let status = 'pending';
       let memberTier = 'demo';
-      if (memberTier === 'demo' || memberTier === 'free') status = 'current'
+      if (memberTier === 'demo' || memberTier === 'free') status = 'current';
       // address optional
       if (!addressIsUndefined(address)) {
-        const {error} = addressValidate(address);
+        const { error } = addressValidate(address);
         if (error) throw error;
         addressId = await insertAddress(address, client);
       }
 
       if (!addressIsUndefined(restAddress)) {
         if (!isSameAddress) {
-          const {error} = addressValidate(restAddress);
+          const { error } = addressValidate(restAddress);
           if (error) throw error;
           restAddressId = await insertAddress(restAddress, client);
         } else {
@@ -82,26 +82,32 @@ const register = db => async (req, res, next) => {
         }
       }
       // required
-      const ownerId = await insertOwner({firstName, lastName, email, addressId}, client);
-      const accountId = await insertAccount({username, hash, restName, ownerId}, client);
-      const statusId = await insertMemberStatus({accountId, memberTier, status}, client);
-      const branchId = await insertBranch({accountId, addressId:restAddressId, branchName:restName}, client);
-      const staffId = await insertOwnerAsStaff({accountId, firstName, lastName}, client);
+      const ownerId = await insertOwner({ firstName, lastName, email, addressId }, client);
+      const accountId = await insertAccount({ username, hash, restName, ownerId }, client);
+      const statusId = await insertMemberStatus({ accountId, memberTier, status }, client);
+      const branchId = await insertBranch(
+        { accountId, addressId: restAddressId, branchName: restName },
+        client,
+      );
+      const staffId = await insertOwnerAsStaff({ accountId, firstName, lastName }, client);
       // contactNo optional
       if (!phoneNumberIsUndefined(contactNo)) {
-        const {error} = phoneNumberValidate(contactNo)
+        const { error } = phoneNumberValidate(contactNo);
         if (error) throw error;
-        contactNoId = await insertContactNo({number:contactNo}, client);
-        await insertOwnerContactNo({ownerId, contactNoId, isMain:true}, client);
+        contactNoId = await insertContactNo({ number: contactNo }, client);
+        await insertOwnerContactNo({ ownerId, contactNoId, isMain: true }, client);
       }
 
       if (!phoneNumberIsUndefined(restContactNo)) {
-        const {error} = phoneNumberValidate(restContactNo);
+        const { error } = phoneNumberValidate(restContactNo);
         if (error) throw error;
-        restContactNoId = await insertContactNo({number:restContactNo}, client);
-        await insertBranchContactNo({branchId, contactNoId:restContactNoId, isMain:true}, client);
+        restContactNoId = await insertContactNo({ number: restContactNo }, client);
+        await insertBranchContactNo(
+          { branchId, contactNoId: restContactNoId, isMain: true },
+          client,
+        );
       }
-      
+
       await client.query('COMMIT');
       const log = {
         accountId,
@@ -114,19 +120,19 @@ const register = db => async (req, res, next) => {
         staffId,
         statusId,
         branchId,
-      }
+      };
       console.log(log);
     } catch (trxError) {
       try {
         await client.query('ROLLBACK');
       } catch (er) {
-        throw er
+        throw er;
       }
       throw trxError;
     } finally {
       client.release();
     }
-    
+
     // const token = jwt.sign({ accountId, username });
     // const staffToken = jwt.sign({staffId})
 

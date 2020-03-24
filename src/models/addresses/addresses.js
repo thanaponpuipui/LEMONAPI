@@ -20,17 +20,10 @@ module.exports.addressInfos = {
   DISTRICT,
   PROVINCE,
   POSTCODE,
-}
+};
 
-module.exports.insertAddress = async (data, client=db) => {
-  const {
-    address1,
-    address2,
-    subDistrict,
-    district,
-    province,
-    postcode,
-  } = data;
+module.exports.insertAddress = async (data, client = db) => {
+  const { address1, address2, subDistrict, district, province, postcode } = data;
 
   const sql = `INSERT INTO ${TABLE}(
     ${ADDRESS},
@@ -56,9 +49,9 @@ module.exports.insertAddress = async (data, client=db) => {
   } catch (e) {
     throw e;
   }
-}
+};
 
-module.exports.selectAddressById = async ({addressId}, client=db) => {
+module.exports.selectAddressById = async ({ addressId }, client = db) => {
   const sql = `
     SELECT
       ${ADDRESS},
@@ -83,9 +76,9 @@ module.exports.selectAddressById = async ({addressId}, client=db) => {
       district,
       province,
       postcode,
-    }
+    };
     return address;
   } catch (e) {
     throw e;
   }
-}
+};

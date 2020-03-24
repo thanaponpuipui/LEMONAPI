@@ -26,7 +26,7 @@ const PASSWORD = 'password';
 const CONTACT_ID = 'contact_no_id';
 const IS_OWNER = 'is_owner';
 
-module.exports.insertOwnerAsStaff = async ({accountId, firstName, lastName}, client=db) => {
+module.exports.insertOwnerAsStaff = async ({ accountId, firstName, lastName }, client = db) => {
   const sql = `
     INSERT INTO ${TABLE}(
       ${ACCOUNT_ID},
@@ -42,7 +42,7 @@ module.exports.insertOwnerAsStaff = async ({accountId, firstName, lastName}, cli
     )
     RETURNING ${ID}
   `;
-  const values = [accountId, firstName, lastName, true]
+  const values = [accountId, firstName, lastName, true];
 
   try {
     const { rows } = await client.query(sql, values);
@@ -50,9 +50,9 @@ module.exports.insertOwnerAsStaff = async ({accountId, firstName, lastName}, cli
   } catch (e) {
     throw e;
   }
-}
+};
 
-module.exports.getOwnerStaff = async ({accountId}, client=db) => {
+module.exports.getOwnerStaff = async ({ accountId }, client = db) => {
   const sql = `
     SELECT
       staff_id,
@@ -64,16 +64,10 @@ module.exports.getOwnerStaff = async ({accountId}, client=db) => {
     WHERE account_id = $1 and is_owner = true;
   `;
   const values = [accountId];
-  console.log('account',accountId)
+  console.log('account', accountId);
   try {
     const { rows } = await client.query(sql, values);
-    const {
-      staff_id,
-      first_name,
-      last_name,
-      gender,
-      password
-    } = rows[0];
+    const { staff_id, first_name, last_name, gender, password } = rows[0];
     const passwordRequire = password ? true : false;
     const data = {
       id: staff_id,
@@ -81,15 +75,15 @@ module.exports.getOwnerStaff = async ({accountId}, client=db) => {
       lastName: last_name,
       gender: gender,
       position: 'owner',
-      passwordRequire
-    }
+      passwordRequire,
+    };
     return data;
   } catch (e) {
     throw e;
   }
-}
+};
 
-module.exports.selectAllBranchStaffs = async ({branchId, accountId}, client=db) => {
+module.exports.selectAllBranchStaffs = async ({ branchId, accountId }, client = db) => {
   const sql = `
     SELECT
       s.staff_id,
@@ -120,12 +114,12 @@ module.exports.selectAllBranchStaffs = async ({branchId, accountId}, client=db) 
         lastName: row.last_name,
         gender: row.gender,
         position,
-        passwordRequire
-      }
+        passwordRequire,
+      };
       staffList.push(data);
-    })
+    });
     return staffList;
   } catch (e) {
     throw e;
   }
-}
+};

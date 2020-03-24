@@ -9,9 +9,9 @@ module.exports.contactNo = {
   TABLE,
   ID,
   NO,
-}
+};
 
-module.exports.insertContactNo = async ({number}, client=db) => {
+module.exports.insertContactNo = async ({ number }, client = db) => {
   const sql = `
     INSERT INTO ${TABLE}(
       ${NO}
@@ -24,8 +24,8 @@ module.exports.insertContactNo = async ({number}, client=db) => {
 
   const values = [number];
 
-  try{
-    const {rows} = await client.query(sql, values);
+  try {
+    const { rows } = await client.query(sql, values);
     if (rows[0].length === 0) {
       const err = new Error('error inserting contact number!');
       err.errorCode = 500;
@@ -34,14 +34,14 @@ module.exports.insertContactNo = async ({number}, client=db) => {
     const { contact_no_id } = rows[0];
     return contact_no_id;
   } catch (e) {
-    throw e
+    throw e;
   }
-}
+};
 
-module.exports.getNo = async ({contactId}) => {
+module.exports.getNo = async ({ contactId }) => {
   const sql = `
     SELECT ${NO} FROM ${TABLE} WHERE ${ID} = $1
-  `
+  `;
   const values = [contactId];
   try {
     const { rows } = await client.query(sql, values);
@@ -51,4 +51,4 @@ module.exports.getNo = async ({contactId}) => {
   } catch (e) {
     throw e;
   }
-}
+};

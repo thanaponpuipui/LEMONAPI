@@ -14,25 +14,30 @@ module.exports = addNewMenu = async (req, res, next) => {
   }
   try {
     const infoEscaped = info ? escapedHtml(info) : null;
-    const nameEscaped = escapedHtml(name);   
+    const nameEscaped = escapedHtml(name);
 
     // const client = await db.connect();
-    const transaction = new Transaction()
+    const transaction = new Transaction();
     const client = await transaction.initTransaction();
     try {
       await transaction.startTransaction();
-      const productId = await insertProduct({
-        accountId, 
-        name:nameEscaped,
-        imageUrl,
-        price,
-        info:infoEscaped,
-      }, client);
-      stockUsage.forEach(stock => {
-        const {amount, id}
-        await insertStockConsume({productId, amount, itemId:id}, client);
-      })
-      await insertBranchProduct({branchId, productId}, client);
+      const productId = await insertProduct(
+        {
+          accountId,
+          name: nameEscaped,
+          imageUrl,
+          price,
+          info: infoEscaped,
+        },
+        client,
+      );
+      const SCPromise = stockUsage.map(stock => {
+        const { amount, id } = stock;
+        return insertStockConsume({ productId, amount, itemId: id }, client);
+      });
+      await insertBranchProduct({ branchId, productId }, client);
+      // wait till all sc done then move on
+      await Promise.all(SCPromise);
       await transaction.endTransaction();
     } catch (trxErr) {
       await transaction.Rollback();

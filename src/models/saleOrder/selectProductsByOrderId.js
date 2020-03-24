@@ -1,6 +1,6 @@
 const db = require('../../database/lemondb');
 
-module.exports = async ({orderId}, client=db) => {
+module.exports = async ({ orderId }, client = db) => {
   const sql = `
     SELECT
       p.product_id,
@@ -27,13 +27,12 @@ module.exports = async ({orderId}, client=db) => {
         totalPrice: row.price,
         amount: row.amount,
         delivered: row.delivered_amount,
-      }
-      return {no, product};
-    })
+      };
+      return { no, product };
+    });
 
     return products;
-  
   } catch (e) {
     throw e;
   }
-}
+};

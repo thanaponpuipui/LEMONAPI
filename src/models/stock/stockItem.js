@@ -8,7 +8,7 @@ const db = require('../../database/lemondb');
   item_name - name of the item
 */
 
-module.exports.insertStockItem = async ({accountId, name, unit, amount=0}, client=db) => {
+module.exports.insertStockItem = async ({ accountId, name, unit, amount = 0 }, client = db) => {
   const sql = `
     INSERT INTO stock_items(
       account_id,
@@ -27,14 +27,14 @@ module.exports.insertStockItem = async ({accountId, name, unit, amount=0}, clien
   const values = [accountId, name, unit, amount];
   try {
     const { rows } = await client.query(sql, values);
-    
+
     return rows[0].item_id;
   } catch (e) {
     throw e;
   }
-}
+};
 
-module.exports.useStockItem = async ({id, amount, unit}, client=db) => {
+module.exports.useStockItem = async ({ id, amount, unit }, client = db) => {
   const sql = `
     UPDATE stock_items
     SET amount = amount - $1
@@ -48,10 +48,10 @@ module.exports.useStockItem = async ({id, amount, unit}, client=db) => {
       id: rows[0].item_id,
       name: rows[0].item_name,
       amount: rows[0].amount,
-      unit: rows[0].unit
-    }
+      unit: rows[0].unit,
+    };
     return newAmount;
   } catch (e) {
     throw e;
   }
-}
+};

@@ -24,22 +24,34 @@ module.exports.addressValidate = data => {
       .required(),
     postcode: Joi.string()
       .regex(/[^0]\d{4}/)
-      .required()
+      .required(),
   });
 
-  return schema.validate(data)
-}
+  return schema.validate(data);
+};
 
 module.exports.addressIsUndefined = data => {
   const schema = Joi.object({
-    address1: Joi.string().max(0).empty(''),
-    address2: Joi.string().max(0).empty(''),
-    subDistrict: Joi.string().max(0).empty(''),
-    district: Joi.string().max(0).empty(''),
-    province: Joi.string().max(0).empty(''),
-    postcode: Joi.string().max(0).empty(''),
-  })
-  const {error} = schema.validate(data);
+    address1: Joi.string()
+      .max(0)
+      .empty(''),
+    address2: Joi.string()
+      .max(0)
+      .empty(''),
+    subDistrict: Joi.string()
+      .max(0)
+      .empty(''),
+    district: Joi.string()
+      .max(0)
+      .empty(''),
+    province: Joi.string()
+      .max(0)
+      .empty(''),
+    postcode: Joi.string()
+      .max(0)
+      .empty(''),
+  });
+  const { error } = schema.validate(data);
   if (!error) return true;
   return false;
-}
+};

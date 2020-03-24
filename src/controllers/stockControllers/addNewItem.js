@@ -7,7 +7,7 @@ const addNewItem = async (req, res, next) => {
   const { name, branchId, unit, amount } = req.body;
   const accountId = req.accountId;
   try {
-    const {error, value} = noSecialStringValidate(name);
+    const { error, value } = noSecialStringValidate(name);
     if (error) {
       const err = new Error('item name contain restricted characters');
       err.errorCode = 400;
@@ -18,8 +18,8 @@ const addNewItem = async (req, res, next) => {
     try {
       // start database trax
       await client.query('BEGIN');
-      const itemId = await insertStockItem({itemName:value, accountId, unit, amount}, client);
-      await insertBranchItem({itemId, branchId}, client);
+      const itemId = await insertStockItem({ itemName: value, accountId, unit, amount }, client);
+      await insertBranchItem({ itemId, branchId }, client);
       await client.query('COMMIT');
     } catch (trxError) {
       try {

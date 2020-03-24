@@ -1,6 +1,6 @@
 const db = require('../../database/lemondb');
 
-const insertStockConsume = async ({productId, itemId, amount=0}, client=db) => {
+const insertStockConsume = async ({ productId, itemId, amount = 0 }, client = db) => {
   const sql = `
     INSERT INTO stock_consume(
       product_id,
@@ -19,6 +19,6 @@ const insertStockConsume = async ({productId, itemId, amount=0}, client=db) => {
   } catch (e) {
     throw e;
   }
-}
+};
 
 module.exports = insertStockConsume;

@@ -1,9 +1,6 @@
 const router = require('express').Router();
 
-const {
-  addNewProduct,
-  getAllProducts,
-} = require('../controllers/productControllers');
+const { addNewProduct, getAllProducts } = require('../controllers/productControllers');
 
 const authCheck = require('../middlewares/authorization');
 

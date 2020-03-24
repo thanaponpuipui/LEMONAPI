@@ -15,7 +15,7 @@ const ACCOUNT_ID = 'account_id';
 const ADDRESS_ID = 'address_id';
 const NAME = 'branch_name';
 
-module.exports.insertBranch = async ({accountId, addressId, branchName}, client=db) => {
+module.exports.insertBranch = async ({ accountId, addressId, branchName }, client = db) => {
   const sql = `
     INSERT INTO ${TABLE}(
       ${ACCOUNT_ID},
@@ -38,9 +38,12 @@ module.exports.insertBranch = async ({accountId, addressId, branchName}, client=
   } catch (e) {
     throw e;
   }
-}
+};
 
-module.exports.insertBranchContactNo = async ({branchId, contactNoId, isMain=false}, client=db) => {
+module.exports.insertBranchContactNo = async (
+  { branchId, contactNoId, isMain = false },
+  client = db,
+) => {
   const sql = `
     INSERT INTO branch_contact_no(
       branch_id,
@@ -61,25 +64,25 @@ module.exports.insertBranchContactNo = async ({branchId, contactNoId, isMain=fal
   } catch (e) {
     throw e;
   }
-}
+};
 
-module.exports.selectAllBranches = async ({accountId}, client=db) => {
-  const sql = `SELECT ${ID}, ${NAME} FROM ${TABLE} WHERE ${ACCOUNT_ID} = $1`
+module.exports.selectAllBranches = async ({ accountId }, client = db) => {
+  const sql = `SELECT ${ID}, ${NAME} FROM ${TABLE} WHERE ${ACCOUNT_ID} = $1`;
   const values = [accountId];
   try {
     const { rows } = await client.query(sql, values);
     const branchList = [];
     rows.forEach(row => {
       const { branch_id, branch_name } = row;
-      branchList.push({id: branch_id, name: branch_name});
-    })
+      branchList.push({ id: branch_id, name: branch_name });
+    });
     return branchList;
   } catch (e) {
     throw e;
   }
-}
+};
 
-module.exports.insertBranchItem = async ({itemId, branchId}, client=db) => {
+module.exports.insertBranchItem = async ({ itemId, branchId }, client = db) => {
   const sql = `
     INSERT INTO branch_stock(
       branch_id,
@@ -94,13 +97,12 @@ module.exports.insertBranchItem = async ({itemId, branchId}, client=db) => {
 
   try {
     await client.query(sql, values);
-
   } catch (e) {
     throw e;
   }
-}
+};
 
-module.exports.isBranchOf = async ({accountId, branchId}, client=db) => {
+module.exports.isBranchOf = async ({ accountId, branchId }, client = db) => {
   const sql = `
     SELECT branch_name
     FROM branches
@@ -116,4 +118,4 @@ module.exports.isBranchOf = async ({accountId, branchId}, client=db) => {
   } catch (e) {
     throw e;
   }
-}
+};

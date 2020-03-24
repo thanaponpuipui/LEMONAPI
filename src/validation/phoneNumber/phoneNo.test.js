@@ -1,4 +1,4 @@
-const {phoneNumberIsUndefined, phoneNumberValidation} = require('./phoneNumberValidation');
+const { phoneNumberIsUndefined, phoneNumberValidation } = require('./phoneNumberValidation');
 
 const number = '0890352352';
 
@@ -11,12 +11,12 @@ const test = () => {
         throw error;
       }
       console.log(value);
-      return
+      return;
     }
-    console.log('phoneNumber is empty:' , isEmpty);
+    console.log('phoneNumber is empty:', isEmpty);
   } catch (e) {
-    console.error(e)
+    console.error(e);
   }
-}
+};
 
 test();

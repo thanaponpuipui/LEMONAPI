@@ -22,7 +22,10 @@ const START = 'start_date';
 const END = 'end_date';
 const STATUS = 'status';
 
-module.exports.insertMemberStatus = async ({accountId, memberTier, status='pending'}, client=db) => {
+module.exports.insertMemberStatus = async (
+  { accountId, memberTier, status = 'pending' },
+  client = db,
+) => {
   const sql = `
     INSERT INTO ${TABLE}(
       ${ACCOUNT_ID},
@@ -44,8 +47,7 @@ module.exports.insertMemberStatus = async ({accountId, memberTier, status='pendi
     const { rows } = await client.query(sql, values);
     return rows[0].account_member_id;
   } catch (e) {
-    console.log('error insert status')
+    console.log('error insert status');
     throw e;
   }
-}
-
+};

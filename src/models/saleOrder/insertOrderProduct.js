@@ -1,6 +1,6 @@
 const db = require('../../database/lemondb');
 
-module.exports = async ({orderId, productId, amount}, client=db) => {
+module.exports = async ({ orderId, productId, amount }, client = db) => {
   const sql = `
     INSERT INTO order_product (
       order_id,
@@ -18,8 +18,8 @@ module.exports = async ({orderId, productId, amount}, client=db) => {
   const values = [orderId, productId, amount];
   try {
     await client.query(sql, values);
-    return ;
+    return;
   } catch (e) {
     throw e;
   }
-}
+};
