@@ -1,4 +1,7 @@
+DROP TABLE branch_contact_no;
 DROP TABLE owner_contact_no;
+DROP TABLE order_product;
+DROP TABLE sale_orders;
 DROP TABLE branch_staff;
 DROP TABLE branch_stock;
 DROP TABLE branch_product;
@@ -21,5 +24,6 @@ DROP TABLE membership;
 DROP TYPE staff_status;
 DROP TYPE mem_status;
 DROP TYPE gender;
+DROP TYPE order_type;
 DROP DOMAIN postcode;
 DROP DOMAIN phone_no;

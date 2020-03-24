@@ -84,7 +84,7 @@ CREATE TABLE stock_items (
 CREATE TABLE stock_consume (
   product_id INTEGER REFERENCES products(product_id) ON DELETE CASCADE NOT NULL,
   item_id INTEGER REFERENCES stock_items(item_id) ON DELETE CASCADE NOT NULL,
-  amount REAL NOT NULL DEFAULT 0,
+  amount REAL NOT NULL DEFAULT 0
 );
 
 CREATE TABLE account_member_status (
@@ -143,7 +143,7 @@ CREATE TABLE sale_orders (
 );
 
 CREATE TABLE order_product (
-  order_id INTEGER REFERENCES sale_order(order_id) ON DELETE CASCADE NOT NULL,
+  order_id INTEGER REFERENCES sale_orders(order_id) ON DELETE CASCADE NOT NULL,
   product_id INTEGER REFERENCES products(product_id) ON DELETE CASCADE NOT NULL,
   amount INTEGER NOT NULL DEFAULT 1,
   delivered_amount INTEGER NOT NULL DEFAULT 0
