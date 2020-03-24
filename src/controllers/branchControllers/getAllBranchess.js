@@ -1,5 +1,5 @@
 const { selectAllBranches: getBranches } = require('../../models/branches');
-
+//
 const getAllBranches = async (req, res, next) => {
   const accountId = req.accountId;
   try {

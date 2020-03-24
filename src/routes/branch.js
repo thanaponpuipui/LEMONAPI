@@ -1,12 +1,9 @@
 const router = require('express').Router();
-const getBranchPath = require('../controllers/getConPath')('branch');
 const lemondb = require('../database/lemondb');
 
 const authCheck = require('../middlewares/authorization');
 
-const addBranch = require(getBranchPath('addBranch'));
-const getAllBranches = require(getBranchPath('getAllBranches'));
-const checkBranchId = require(getBranchPath('checkBranchId'));
+const { addBranch, checkBranchId, getAllBranches } = require('../controllers/branchControllers');
 
 router.post('/', authCheck, addBranch(lemondb));
 
