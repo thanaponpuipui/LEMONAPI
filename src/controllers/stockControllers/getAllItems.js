@@ -1,28 +1,16 @@
-const getAllStock = db => async (req, res, next) => {
-  const restId = req.params.Id;
+const { selectBranchStocks } = require('../../models/stock');
 
-  // use restId
-  const sql = {
-    text: 'SELECT * FROM ingredients WHERE rest_id = $1',
-    values: [restId],
-  };
+const getAllStock = async (req, res, next) => {
+  const { branchId } = req.query;
+
   try {
-    const { rows } = await db.query(sql);
-    const message = rows.length <= 0 ? 'no stock found!' : `successfully get:${rows.length} items`;
-    const data = [];
-    for (let i = 0; i < rows.length; i++) {
-      const { ingredient_id, ingredient_name, details } = rows[i];
-      const pushData = {
-        id: ingredient_id,
-        name: ingredient_name,
-        details: details,
-      };
-      data.push(pushData);
-    }
+    const stockItems = await selectBranchStocks({branchId});
+    const message = stockItems.length <= 0 ? 'no stock found!' : `successfully get:${stockItems.length} items`;
+
     const resData = {
       flag: 'success',
       message: message,
-      data: data,
+      data: stockItems,
     };
     res.status(200).json(resData);
   } catch (e) {
