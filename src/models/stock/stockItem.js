@@ -55,3 +55,31 @@ module.exports.useStockItem = async ({ id, amount, unit }, client = db) => {
     throw e;
   }
 };
+
+module.exports.selectBranchStocks = async ({branchId}, client = db) => {
+  const sql = `
+    SELECT
+      a.item_id,
+      a.item_name,
+      a.unit,
+      a.amount
+    FROM stock_items a
+    JOIN branch_stock b
+    ON a.item_id = b.item_id
+    WHERE b.branch_id = $1
+  `;
+  const values = [branchId];
+  try {
+    const { rows } = await client.query(sql, values);
+    return rows.map(item => {
+      return {
+        id: item.item_id,
+        name: item.item_name,
+        unit: item.unit,
+        amount: item.amount,
+      }
+    })
+  } catch (e) {
+    throw e;
+  }
+}
