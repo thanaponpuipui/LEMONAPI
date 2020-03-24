@@ -13,13 +13,15 @@ const { insertBranch, insertBranchContactNo } = require('../../models/branches')
 const { insertOwnerAsStaff } = require('../../models/staffs');
 const { insertMemberStatus } = require('../../models/membershipStatus');
 
+const { passRepeat, userpassValidation } = require('../../validation/userpass');
+
 const register = db => async (req, res, next) => {
   let client;
   try {
     const {
       firstName,
       lastName,
-      username,
+      username: rawUsername,
       password,
       passwordConfirm,
       email,
@@ -31,8 +33,11 @@ const register = db => async (req, res, next) => {
       isSameAddress,
     } = req.body;
     // validation
-    const { error: registerInvalid } = registerValidate({ username, password, passwordConfirm });
+    const { error: wrongPasswordConfirm } = passRepeat({password, passwordConfirm})
+    const { error: registerInvalid, value:userpassValue } = userpassValidation({ rawUsername, password, passwordConfirm });
     const { error: ownerInfoInvalid } = ownerInfoValidate({ firstName, lastName, email });
+
+    const { username } = userpassValue;
     const verify = userVerifier(db);
 
     if (registerInvalid) {
@@ -42,6 +47,10 @@ const register = db => async (req, res, next) => {
     if (ownerInfoInvalid) {
       console.table(ownerInfoInvalid);
       throw ownerInfoInvalid;
+    }
+    if (wrongPasswordConfirm) {
+      console.table(wrongPasswordConfirm);
+      throw wrongPasswordConfirm;
     }
     // check if username already exist
     const isExist = await verify(username);
