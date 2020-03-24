@@ -2,6 +2,7 @@ const db = require('../../database/lemondb');
 const { insertBranchItem } = require('../../models/branches');
 const { insertStockItem } = require('../../models/stock');
 const noSecialStringValidate = require('../../validation/utils/noSpecialString');
+const Transaction = require('../../models/transaction');
 
 const addNewItem = async (req, res, next) => {
   const { name, branchId, unit, amount } = req.body;
@@ -14,22 +15,23 @@ const addNewItem = async (req, res, next) => {
       throw err;
     }
     // create trax instance
-    const client = await db.connect();
+    const transaction = new Transaction();
+    const client = await transaction.initTransaction();
     try {
       // start database trax
-      await client.query('BEGIN');
-      const itemId = await insertStockItem({ itemName: value, accountId, unit, amount }, client);
+      await transaction.startTransaction();
+      const itemId = await insertStockItem({ name: value, accountId, unit, amount }, client);
       await insertBranchItem({ itemId, branchId }, client);
-      await client.query('COMMIT');
+      await transaction.endTransaction()
     } catch (trxError) {
       try {
-        await client.query('ROLLBACK');
+        await transaction.Rollback();
       } catch (er) {
         throw er;
       }
-      throw trxErro;
+      throw trxError;
     } finally {
-      client.release();
+      transaction.release();
     }
     const resData = {
       flag: 'success',
