@@ -1,4 +1,4 @@
-const getAllBranches = require('./getAllBranchess');
+const getAllBranches = require('./getAllBranches');
 const addBranch = require('./addBranch');
 const checkBranchId = require('./checkBranchId');
 
