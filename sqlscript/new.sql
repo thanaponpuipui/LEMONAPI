@@ -4,6 +4,7 @@ CREATE DOMAIN phone_no as TEXT CHECK( VALUE ~ '0\d{8,9}');
 CREATE TYPE mem_status AS ENUM ('current', 'ended', 'pending');
 CREATE TYPE staff_status AS ENUM ('on', 'off');
 CREATE TYPE order_type AS ENUM ('eat-in', 'delivery', 'take-away');
+CREATE TYPE stock_update_action AS ENUM ('update', 'plus', 'minus');
 
 CREATE TABLE addresses (
   address_id SERIAL PRIMARY KEY,
@@ -79,6 +80,16 @@ CREATE TABLE stock_items (
   item_name VARCHAR(100) NOT NULL,
   unit VARCHAR(20),
   amount REAL NOT NULL DEFAULT 0
+);
+
+CREATE TABLE stock_update_history (
+  stock_update_id BIGSERIAL PRIMARY KEY,
+  item_id INTEGER REFERENCES stock_items(item_id) ON DELETE NO ACTION NOT NULL,
+  staff_id INTEGER REFERENCES staffs(staff_id) ON DELETE NO ACTION NOT NULL, 
+  update_amount REAL NOT NULL,
+  total_amount REAL NOT NULL,
+  action stock_update_action NOT NUll,
+  note VARCHAR(300)
 );
 
 CREATE TABLE stock_consume (

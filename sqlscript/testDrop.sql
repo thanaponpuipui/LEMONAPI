@@ -6,6 +6,7 @@ DROP TABLE branch_staff;
 DROP TABLE branch_stock;
 DROP TABLE branch_product;
 DROP TABLE account_member_status;
+DROP TABLE stock_update_history;
 DROP TABLE stock_consume;
 DROP TABLE stock_items;
 DROP TABLE product_tag;
