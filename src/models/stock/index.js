@@ -1,3 +1,7 @@
 const stockItemModel = require('./stockItem');
+const insertStockUpdateHistory = require('./insertStockUpdateHistory');
 
-module.exports = { ...stockItemModel };
+module.exports = {
+  ...stockItemModel,
+  insertStockUpdateHistory,
+};

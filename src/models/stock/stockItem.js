@@ -67,6 +67,7 @@ module.exports.selectBranchStocks = async ({branchId}, client = db) => {
     JOIN branch_stock b
     ON a.item_id = b.item_id
     WHERE b.branch_id = $1
+    ORDER BY item_name
   `;
   const values = [branchId];
   try {
@@ -79,6 +80,54 @@ module.exports.selectBranchStocks = async ({branchId}, client = db) => {
         amount: item.amount,
       }
     })
+  } catch (e) {
+    throw e;
+  }
+}
+
+module.exports.updateStockAmount = async ({newAmount, itemId}, client=db) => {
+  const sql = `
+    UPDATE stock_items
+    SET amount = $1
+    WHERE item_id = $2
+    RETURNING amount
+  `;
+  const values = [newAmount, itemId];
+  try {
+    const { rows } = await client.query(sql, values);
+    return rows[0].amount;
+  } catch (e) {
+    throw e;
+  }
+}
+
+module.exports.minusStockAmount = async ({minusAmount, itemId}, client=db) => {
+  const sql = `
+    UPDATE stock_items
+    SET amount = amount - $1
+    WHERE item_id = $2
+    RETURNING amount
+  `;
+  const values = [minusAmount, itemId];
+  try {
+    const { rows } = await client.query(sql, values);
+    return rows[0].amount;
+  } catch (e) {
+    throw e;
+  }
+}
+
+module.exports.plusStockAmount = async ({plusAmount, itemId}, client=db) => {
+  const sql = `
+    UPDATE stock_items
+    SET amount = amount + $1
+    WHERE item_id = $2
+    RETURNING amount
+  `;
+  const values = [plusAmount, itemId];
+  try {
+    const { rows } = await client.query(sql, values);
+    return rows[0].amount;
   } catch (e) {
     throw e;
   }
