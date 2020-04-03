@@ -1,7 +1,6 @@
 const jwt = require('../utils/jwt');
 
 module.exports = (req, res, next) => {
-  console.log('authCheck');
   const token = req.header('Authorization');
   if (!token) {
     const error = new Error('Not Authenticate.');
