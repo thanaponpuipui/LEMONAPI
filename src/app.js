@@ -8,11 +8,14 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 // routes
-const authRoute = require('./routes/auth');
-const branchRoute = require('./routes/branch');
-const staffRoute = require('./routes/staff');
-const orderRoute = require('./routes/order');
-const stockRoute = require('./routes/stock');
+const {
+  auth,
+  branch,
+  order,
+  product,
+  staff,
+  stock,
+} = require('./routes');
 
 const app = express();
 
@@ -21,11 +24,12 @@ app.use(cors());
 app.use(bodyPaser.json());
 app.use(morgan('dev'));
 
-app.use('/auth', authRoute);
-app.use('/branch', branchRoute);
-app.use('/staff', staffRoute);
-app.use('/order', orderRoute);
-app.use('/stock', stockRoute);
+app.use('/auth', auth);
+app.use('/branch', branch);
+app.use('/staff', staff);
+app.use('/order', order);
+app.use('/stock', stock);
+app.use('/product', product);
 
 app.use((err, req, res, next) => {
   console.log('error handler', err.message);
