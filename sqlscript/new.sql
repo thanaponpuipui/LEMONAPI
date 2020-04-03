@@ -54,6 +54,7 @@ CREATE TABLE staffs (
   first_name VARCHAR(50) NOT NULL,
   last_name VARCHAR(50) NOT NULL,
   gender gender,
+  image VARCHAR(500),
   password VARCHAR(100),
   contact_no_id INTEGER REFERENCES contact_no(contact_no_id) ON DELETE SET NULL,
   is_owner BOOL DEFAULT FALSE NOT NULL
@@ -63,9 +64,9 @@ CREATE TABLE products (
   product_id SERIAL PRIMARY KEY,
   account_id INTEGER REFERENCES accounts(account_id) ON DELETE RESTRICT NOT NULL,
   product_name VARCHAR(100) NOT NULL,
-  product_image VARCHAR(500) NOT NULL DEFAULT 'https://ucarecdn.com/fa297ebd-50d8-4dcf-add4-821ba8af2b51/photoofalandscape.png',
+  product_image VARCHAR(500),
   price REAL NOT NULL DEFAULT 0,
-  info VARCHAR(500)
+  description VARCHAR(500)
 );
 
 CREATE TABLE product_tag (
@@ -95,7 +96,8 @@ CREATE TABLE stock_update_history (
 CREATE TABLE stock_consume (
   product_id INTEGER REFERENCES products(product_id) ON DELETE CASCADE NOT NULL,
   item_id INTEGER REFERENCES stock_items(item_id) ON DELETE CASCADE NOT NULL,
-  amount REAL NOT NULL DEFAULT 0
+  amount REAL NOT NULL DEFAULT 0,
+  PRIMARY KEY (product_id, item_id)
 );
 
 CREATE TABLE account_member_status (
@@ -157,5 +159,6 @@ CREATE TABLE order_product (
   order_id INTEGER REFERENCES sale_orders(order_id) ON DELETE CASCADE NOT NULL,
   product_id INTEGER REFERENCES products(product_id) ON DELETE CASCADE NOT NULL,
   amount INTEGER NOT NULL DEFAULT 1,
-  delivered_amount INTEGER NOT NULL DEFAULT 0
+  delivered_amount INTEGER NOT NULL DEFAULT 0,
+  PRIMARY KEY (order_id, product_id)
 );
