@@ -5,7 +5,7 @@ module.exports = async ({ orderId }, client = db) => {
     SELECT
       p.product_id,
       p.product_name,
-      p.info,
+      p.description,
       p.price * o.amount AS 'price',
       o.amount,
       delivered_amount
@@ -23,7 +23,7 @@ module.exports = async ({ orderId }, client = db) => {
       const product = {
         id: row.product_id,
         name: row.product_name,
-        info: row.info,
+        description: row.description,
         totalPrice: row.price,
         amount: row.amount,
         delivered: row.delivered_amount,

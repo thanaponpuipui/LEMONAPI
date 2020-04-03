@@ -5,7 +5,7 @@ const { insertProduct, insertStockConsume } = require('../../models/products');
 const escapedHtml = require('../../validation/utils/escapeHtml');
 
 module.exports = addNewMenu = async (req, res, next) => {
-  const { branchId, name, price, info, imageUrl, stockUsage } = req.body;
+  const { branchId, name, price, description, imageUrl, stockUsage } = req.body;
   const accountId = req.accountId;
   if (stockUsage && !Array.isArray(stockUsage)) {
     const err = new Error('bad request!');
@@ -13,7 +13,7 @@ module.exports = addNewMenu = async (req, res, next) => {
     next(err);
   }
   try {
-    const infoEscaped = info ? escapedHtml(info) : null;
+    const infoEscaped = description ? escapedHtml(description) : null;
     const nameEscaped = escapedHtml(name);
 
     // const client = await db.connect();
@@ -27,7 +27,7 @@ module.exports = addNewMenu = async (req, res, next) => {
           name: nameEscaped,
           imageUrl,
           price,
-          info: infoEscaped,
+          description: infoEscaped,
         },
         client,
       );
