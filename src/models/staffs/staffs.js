@@ -59,15 +59,15 @@ module.exports.getOwnerStaff = async ({ accountId }, client = db) => {
       first_name,
       last_name,
       gender,
-      password
+      password,
+      image
     FROM staffs
     WHERE account_id = $1 and is_owner = true;
   `;
   const values = [accountId];
-  console.log('account', accountId);
   try {
     const { rows } = await client.query(sql, values);
-    const { staff_id, first_name, last_name, gender, password } = rows[0];
+    const { staff_id, first_name, last_name, gender, password, image } = rows[0];
     const passwordRequire = password ? true : false;
     const data = {
       id: staff_id,
@@ -75,6 +75,7 @@ module.exports.getOwnerStaff = async ({ accountId }, client = db) => {
       lastName: last_name,
       gender: gender,
       position: 'owner',
+      image: image,
       passwordRequire,
     };
     return data;
@@ -92,6 +93,7 @@ module.exports.selectAllBranchStaffs = async ({ branchId, accountId }, client = 
       s.gender,
       s.password,
       s.is_owner,
+      s.image,
       b.position
     FROM staffs s
     LEFT JOIN branch_staff b
@@ -113,6 +115,7 @@ module.exports.selectAllBranchStaffs = async ({ branchId, accountId }, client = 
         firstName: row.first_name,
         lastName: row.last_name,
         gender: row.gender,
+        image: row.image,
         position,
         passwordRequire,
       };
