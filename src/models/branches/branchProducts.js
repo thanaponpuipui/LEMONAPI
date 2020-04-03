@@ -27,7 +27,7 @@ module.exports.selectAllBranchProducts = async ({ branchId }, client = db) => {
       p.product_id,
       p.product_name,
       p.product_image,
-      p.info,
+      p.description,
       p.price,
       b.branch_price
     FROM products p
@@ -45,7 +45,7 @@ module.exports.selectAllBranchProducts = async ({ branchId }, client = db) => {
         id: row.product_id,
         name: row.product_name,
         imageUrl: row.product_image,
-        info: row.info,
+        description: row.description,
         price: row.price,
         branchPrice: row.branchPrice,
       };
