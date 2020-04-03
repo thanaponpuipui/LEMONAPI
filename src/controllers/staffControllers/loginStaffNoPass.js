@@ -1,13 +1,13 @@
 const jwt = require('../../utils/jwt');
 
 const loginStaffNoPass = (req, res, next) => {
-  const { staffId, firstName, position } = req.body;
+  const { staffId, firstName, lastName, position } = req.body;
   try {
-    const staffToken = jwt.sign({ id: staffId, name: firstName, position });
+    const staffToken = jwt.sign({ id: staffId, name: firstName + ' ' + lastName, position });
     const staff = {
       token: staffToken,
       id: staffId,
-      name: firstName,
+      name: firstName + ' ' + lastName,
       position,
     };
     const resData = {
