@@ -2,7 +2,6 @@ const { getOwnerStaff: getOwnerStaffModel } = require('../../models/staffs');
 
 const getOwnerStaff = async (req, res, next) => {
   const accountId = req.accountId;
-  console.log('con', accountId);
   try {
     const staff = await getOwnerStaffModel({ accountId });
     const resData = {
