@@ -26,5 +26,6 @@ DROP TYPE staff_status;
 DROP TYPE mem_status;
 DROP TYPE gender;
 DROP TYPE order_type;
+DROP TYPE stock_update_action;
 DROP DOMAIN postcode;
 DROP DOMAIN phone_no;
