@@ -18,12 +18,13 @@ module.exports = async ({productId}, client=db) => {
   try {
     const { rows } = await client.query(sql, values);
     return rows.map(item => {
-      return {
+      const {
         item_id: id,
         item_name: name,
         unit,
         amount,
       } = item;
+      return {id, name, unit, amount}
     })
   } catch (e) {
     throw e;
