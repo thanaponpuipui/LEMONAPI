@@ -113,7 +113,7 @@ module.exports.insertProduct = async (
       $2,
       $3,
       $4,
-      %5
+      $5
     )
     RETURNING product_id
   `;

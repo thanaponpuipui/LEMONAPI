@@ -5,7 +5,7 @@ module.exports.insertBranchProduct = async ({ branchId, productId, price }, clie
     INSERT INTO branch_product(
       branch_id,
       product_id,
-      price
+      branch_price
     )
     VALUES(
       $1,
