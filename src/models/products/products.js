@@ -94,7 +94,7 @@ module.exports.insertProduct = async (
   {
     accountId,
     name,
-    imageUrl = 'https://ucarecdn.com/fa297ebd-50d8-4dcf-add4-821ba8af2b51/photoofalandscape.png',
+    imageUrl,
     price = 0,
     description,
   },

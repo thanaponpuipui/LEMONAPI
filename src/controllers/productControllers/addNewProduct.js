@@ -13,15 +13,21 @@ module.exports = addNewMenu = async (req, res, next) => {
     next(err);
   }
   try {
+    if (!name || !price) {
+      const error = new Error('Please fill required inputs')
+      error.errorCode = 400;
+      throw error;
+    } 
     const infoEscaped = description ? escapedHtml(description) : null;
     const nameEscaped = escapedHtml(name);
 
     // const client = await db.connect();
     const transaction = new Transaction();
     const client = await transaction.initTransaction();
+    let productId;
     try {
       await transaction.startTransaction();
-      const productId = await insertProduct(
+      productId = await insertProduct(
         {
           accountId,
           name: nameEscaped,
@@ -49,6 +55,7 @@ module.exports = addNewMenu = async (req, res, next) => {
     const resData = {
       flag: 'success',
       message: 'successfully add new menu!',
+      data: {id: productId},
     };
     res.status(200).json(resData);
   } catch (e) {
