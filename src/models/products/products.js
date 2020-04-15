@@ -58,6 +58,45 @@ class Products extends Model {
       throw e;
     }
   }
+  // not update branch price
+  static async updateProduct(productId, {name, price, description, image}, client=db) {
+    const sql = `
+      UPDATE products
+      SET
+        product_name = $1,
+        product_image = $2,
+        price = $3,
+        description = $4
+      WHERE product_id = $5
+      RETURNING *
+    `;
+    const values = [name, image, price, description, productId];
+    try{
+      const { rows } = await client.query(sql, values);
+      return {
+        id: rows[0].product_id,
+        name: rows[0].product_name,
+        image: rows[0].product_image,
+        price: rows[0].price,
+        description: rows[0].description
+      } = rows[0];
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  static async deleteProduct({productId}, client=db) {
+    const sql = `
+      DELETE FROM products
+      WHERE product_id = $1
+    `;
+    const values = [productId];
+    try {
+      await client.query(sql, values);
+    } catch (e) {
+      throw e;
+    }
+  }
 
   static async getProduct({ productId }) {
     const sql = `
