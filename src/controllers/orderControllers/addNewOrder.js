@@ -1,4 +1,4 @@
-const db = require('../../database/lemondb');
+const db = require('../../config/lemondb');
 const { insertOrderProduct, insertSaleOrder } = require('../../models/saleOrder');
 
 const addNewOrder = async (req, res, next) => {

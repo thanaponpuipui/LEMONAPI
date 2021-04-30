@@ -1,4 +1,4 @@
-const db = require('../../database/lemondb');
+const db = require('../../config/lemondb');
 
 const TABLE = 'addresses';
 const ID = 'address_id';

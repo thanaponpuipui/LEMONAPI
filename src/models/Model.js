@@ -1,4 +1,4 @@
-const db = require('../database/lemondb');
+const db = require('../config/lemondb');
 
 //abstract class for models
 class Model {

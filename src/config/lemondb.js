@@ -1,4 +1,5 @@
 const Pool = require('pg').Pool;
+const { dbUser, dbPasword, dbUrl } = require('./env');
 
 // use use pool connection so we don`t have to open/close it every time we make query
 /* 
@@ -14,15 +15,15 @@ let databaseConfig;
 
 if (process.env.NODE_ENV === 'production') {
   databaseConfig = {
-    connectionString: process.env.DATABASE_URL,
+    connectionString: dbUrl,
     ssl: true,
   };
 } else {
   databaseConfig = {
     host: 'localhost',
-    user: process.env.DB_USER,
+    user: dbUser,
     database: 'testlemon',
-    password: process.env.DB_PASSWORD,
+    password: dbPasword,
     port: 5432,
   };
 }

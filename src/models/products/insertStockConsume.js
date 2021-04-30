@@ -1,4 +1,4 @@
-const db = require('../../database/lemondb');
+const db = require('../../config/lemondb');
 
 const insertStockConsume = async ({ productId, itemId, amount = 0 }, client = db) => {
   const sql = `

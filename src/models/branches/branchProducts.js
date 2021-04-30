@@ -1,4 +1,4 @@
-const db = require('../../database/lemondb');
+const db = require('../../config/lemondb');
 
 module.exports.insertBranchProduct = async ({ branchId, productId, price }, client = db) => {
   const sql = `

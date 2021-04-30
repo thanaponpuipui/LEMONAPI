@@ -1,6 +1,7 @@
-const express = require("express");
-const cors = require("cors");
-const morgan = require("morgan");
+const express = require('express');
+const cors = require('cors');
+const morgan = require('morgan');
+const env = require('./config');
 
 // routes
 const { auth, branch, order, product, staff, stock } = require("./routes");
@@ -8,8 +9,8 @@ const { auth, branch, order, product, staff, stock } = require("./routes");
 const app = express();
 
 app.use(cors());
-app.use(morgan("dev"));
-
+// app.use(bodyPaser.urlencoded({extended:false}))
+app.use(morgan('dev'));
 
 app.use("/auth", auth);
 app.use("/branch", branch);
@@ -18,8 +19,8 @@ app.use("/order", order);
 app.use("/stock", stock);
 app.use("/product", product);
 
-app.use((err, req, res, next) => {
-  console.log("error handler", err.message);
+app.use((err, req, res) => {
+  console.log('error handler', err.message);
   if (!err.errorCode) {
     err.errorCode = 500;
   }
@@ -31,6 +32,6 @@ app.use((err, req, res, next) => {
   res.status(err.errorCode).json(resData);
 });
 
-app.listen(8000, () => {
-  console.log(`${process.env.NODE_ENV} server run on port ${process.env.PORT}`);
+app.listen(env.port, () => {
+  console.log(`${env.node_env} server run on port ${env.port}`);
 });

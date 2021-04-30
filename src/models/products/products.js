@@ -1,5 +1,5 @@
 const Model = require('../Model');
-const db = require('../../database/lemondb');
+const db = require('../../config/lemondb');
 /* 
   table name: products
   product_id - PRIMARY KEY
