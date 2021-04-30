@@ -1,19 +1,14 @@
 const crypt = require('../../utils/crypt');
 const { userVerifier } = require('../../utils/userVerifier');
 
-const { registerValidate, ownerInfoValidate } = require('../../validation/tempValidate');
-const { addressValidate, addressIsUndefined } = require('../../validation/address');
-const { phoneNumberValidate, phoneNumberIsUndefined } = require('../../validation/phoneNumber');
 
 const { insertAddress } = require('../../models/addresses');
 const { insertContactNo } = require('../../models/contactNo');
-const { insertAccount } = require('../../models/accounts/');
+const { insertAccount } = require('../../models/accounts');
 const { insertOwner, insertOwnerContactNo } = require('../../models/owners');
 const { insertBranch, insertBranchContactNo } = require('../../models/branches');
 const { insertOwnerAsStaff } = require('../../models/staffs');
 const { insertMemberStatus } = require('../../models/membershipStatus');
-
-const { passRepeat, userpassValidation } = require('../../validation/userpass');
 
 const register = db => async (req, res, next) => {
   let client;

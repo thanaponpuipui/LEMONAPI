@@ -1,5 +1,5 @@
-const jwt = require('../../utils/jwt');
-const { selectRestaurantName } = require('../../models/accounts');
+const jwt = require("../../utils/jwt");
+const { selectRestaurantName } = require("../../models/accounts");
 
 const check = async (req, res, next) => {
   const token = req.query.token;
@@ -25,8 +25,8 @@ const check = async (req, res, next) => {
     token,
   };
   const resData = {
-    flag: 'success',
-    message: 'login success',
+    flag: "success",
+    message: "login success",
     data,
   };
 

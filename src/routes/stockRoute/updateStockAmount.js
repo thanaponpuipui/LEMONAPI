@@ -1,7 +1,7 @@
 const { updateStockAmount, minusStockAmount, plusStockAmount, insertStockUpdateHistory } = require('../../models/stock');
 const Transaction = require('../../models/transaction');
 
-module.exports = async (req, res, next) => {
+const updateStockAmount = async (req, res, next) => {
   const { itemId, configAmount, mode, staffId, note } = req.body;
   console.log('request body', req.body)
   try {
@@ -58,3 +58,5 @@ module.exports = async (req, res, next) => {
     next(e);
   }
 }
+
+module.exports = updateStockAmount;

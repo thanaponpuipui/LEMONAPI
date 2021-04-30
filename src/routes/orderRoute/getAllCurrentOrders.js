@@ -1,6 +1,6 @@
 const { selectAllCurrentOrders, selectProductsByOrderId } = require('../../models/saleOrder');
 
-module.exports = async (req, res, next) => {
+const getAllCurrentOrders = async (req, res, next) => {
   const { branchId } = req.query;
 
   try {
@@ -20,3 +20,4 @@ module.exports = async (req, res, next) => {
     next(e);
   }
 };
+module.exports = getAllCurrentOrders;

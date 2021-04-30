@@ -1,6 +1,6 @@
 const { Products } = require('../../models/products')
 
-module.exports = async (req, res, next) => {
+const configProductInfo = async (req, res, next) => {
   const productId = req.params.productId;
   const { name, price, description, image } = req.body;
   try {
@@ -15,3 +15,4 @@ module.exports = async (req, res, next) => {
     next(e);
   }
 }
+module.exports = configProductInfo;

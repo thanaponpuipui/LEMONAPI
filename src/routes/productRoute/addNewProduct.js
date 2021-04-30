@@ -2,9 +2,8 @@ const Transaction = require('../../models/transaction');
 
 const { insertBranchProduct } = require('../../models/branches');
 const { insertProduct, insertStockConsume } = require('../../models/products');
-const escapedHtml = require('../../validation/utils/escapeHtml');
 
-module.exports = addNewMenu = async (req, res, next) => {
+const addNewProduct = async (req, res, next) => {
   const { branchId, name, price, description, imageUrl, stockUsage } = req.body;
   const accountId = req.accountId;
   if (stockUsage && !Array.isArray(stockUsage)) {
@@ -62,3 +61,4 @@ module.exports = addNewMenu = async (req, res, next) => {
     next(e);
   }
 };
+module.exports=addNewProduct;

@@ -1,12 +1,11 @@
 const router = require('express').Router();
-const authCheck = require('../middlewares/authorization');
+const authCheck = require('../../middlewares/authorization');
+
 // controllers
-const {
-  checkUserId,
-  getAllStaffs,
-  getOwnerStaff,
-  loginStaffNoPass,
-} = require('../controllers/staffControllers');
+const loginStaffNoPass = require("./loginStaffNoPass");
+const checkUserId = require("./checkUserId");
+const getAllStaffs = require("./getAllStaffs");
+const getOwnerStaff = require("./getOwnerStaff");
 
 router.post('/login-no-pass', authCheck, loginStaffNoPass);
 

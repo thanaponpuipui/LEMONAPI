@@ -1,7 +1,6 @@
 const db = require('../../config/lemondb');
 const { insertBranchItem } = require('../../models/branches');
 const { insertStockItem } = require('../../models/stock');
-const noSecialStringValidate = require('../../validation/utils/noSpecialString');
 const Transaction = require('../../models/transaction');
 
 const addNewItem = async (req, res, next) => {

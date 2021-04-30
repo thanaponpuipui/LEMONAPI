@@ -1,15 +1,13 @@
 const router = require('express').Router();
 
-const {
-  addNewProduct,
-  getAllProducts, 
-  getStockUse,
-  changeStockUseAmount,
-  deleteProduct,
-  configProductInfo,
-} = require('../controllers/productControllers');
+const authCheck = require('../../middlewares/authorization');
 
-const authCheck = require('../middlewares/authorization');
+const getAllProducts = require("./getAllProducts");
+const addNewProduct =require("./addNewProduct");
+const getStockUse = require("./getStockUse");
+const changeStockUseAmount = require("./changeStockUseAmount");
+const deleteProduct = require("./deleteProduct");
+const configProductInfo = require("./configProductInfo")
 
 router.post('/add', authCheck, addNewProduct);
 
