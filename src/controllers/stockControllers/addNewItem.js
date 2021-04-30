@@ -1,4 +1,4 @@
-const db = require('../../database/lemondb');
+const db = require('../../config/lemondb');
 const { insertBranchItem } = require('../../models/branches');
 const { insertStockItem } = require('../../models/stock');
 const noSecialStringValidate = require('../../validation/utils/noSpecialString');

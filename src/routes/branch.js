@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const lemondb = require('../database/lemondb');
+const lemondb = require('../config/lemondb');
 
 const authCheck = require('../middlewares/authorization');
 

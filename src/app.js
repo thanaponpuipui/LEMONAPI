@@ -1,11 +1,7 @@
 const express = require('express');
-const bodyPaser = require('body-parser');
 const cors = require('cors');
 const morgan = require('morgan');
-
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config();
-}
+const env = require('./config');
 
 // routes
 const {
@@ -21,7 +17,6 @@ const app = express();
 
 app.use(cors());
 // app.use(bodyPaser.urlencoded({extended:false}))
-app.use(bodyPaser.json());
 app.use(morgan('dev'));
 
 app.use('/auth', auth);
@@ -44,6 +39,6 @@ app.use((err, req, res, next) => {
   res.status(err.errorCode).json(resData);
 });
 
-app.listen(process.env.PORT, () => {
-  console.log(`${process.env.NODE_ENV} server run on port ${process.env.PORT}`);
+app.listen(env.port, () => {
+  console.log(`${env.node_env} server run on port ${env.port}`);
 });

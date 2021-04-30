@@ -1,4 +1,4 @@
-const db = require('../../database/lemondb');
+const db = require('../../config/lemondb');
 const time = require('../../utils/time');
 const { getMemberTierId } = require('./memberTierId');
 
