@@ -26,7 +26,7 @@ app.use('/order', order);
 app.use('/stock', stock);
 app.use('/product', product);
 
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
   console.log('error handler', err.message);
   if (!err.errorCode) {
     err.errorCode = 500;
