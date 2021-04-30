@@ -1,15 +1,12 @@
-const jwt = require('../../utils/jwt');
 const bcrypt = require('bcrypt');
-const { userVerifier } = require('../../utils/userVerifier');
-
-const { userpassValidation } = require('../../validation/userpass');
+const jwt = require('../../../utils/jwt');
+const { userVerifier } = require('../../../utils/userVerifier');
 
 const login = db => async (req, res, next) => {
   const { username:rawUsername, password } = req.body;
   // validation
   const verify = userVerifier(db);
   // validate input
-  const {error: validationError, value} = userpassValidation({rawUsername, password})
   const { username } = value;
   try {
     // check if username is valid
