@@ -1,6 +1,6 @@
-const { selectAllBranchProducts } = require('../../models/branches');
+const { selectAllBranchProducts } = require('../../../models/branches');
 
-module.exports = async (req, res, next) => {
+const getAllProducts = async (req, res, next) => {
   try {
     const { branchId } = req.query;
 
@@ -16,3 +16,5 @@ module.exports = async (req, res, next) => {
     next(e);
   }
 };
+
+module.exports = getAllProducts;

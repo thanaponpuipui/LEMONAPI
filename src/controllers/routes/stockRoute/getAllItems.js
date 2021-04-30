@@ -1,4 +1,4 @@
-const { selectBranchStocks } = require('../../models/stock');
+const { selectBranchStocks } = require('../../../models/stock');
 
 const getAllStock = async (req, res, next) => {
   const { branchId } = req.query;

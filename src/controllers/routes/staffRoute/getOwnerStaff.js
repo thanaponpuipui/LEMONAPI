@@ -1,4 +1,4 @@
-const { getOwnerStaff: getOwnerStaffModel } = require('../../models/staffs');
+const { getOwnerStaff: getOwnerStaffModel } = require('../../../models/staffs');
 
 const getOwnerStaff = async (req, res, next) => {
   const accountId = req.accountId;

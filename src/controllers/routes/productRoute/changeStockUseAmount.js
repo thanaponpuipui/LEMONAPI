@@ -1,6 +1,6 @@
-const { updateStockConsumeAmount } = require('../../models/products');
+const { updateStockConsumeAmount } = require('../../../models/products');
 
-module.exports = async (req, res, next) => {
+const changeStockUseAmount = async (req, res, next) => {
   const { newAmount, productId, itemId } = req.body;
   try {
     await updateStockConsumeAmount({newAmount, productId, itemId});
@@ -13,3 +13,5 @@ module.exports = async (req, res, next) => {
     next(e);
   }
 }
+
+module.exports = changeStockUseAmount;

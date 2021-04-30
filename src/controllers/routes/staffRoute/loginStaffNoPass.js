@@ -1,4 +1,4 @@
-const jwt = require('../../utils/jwt');
+const jwt = require('../../../utils/jwt');
 
 const loginStaffNoPass = (req, res, next) => {
   const { staffId, firstName, lastName, position } = req.body;

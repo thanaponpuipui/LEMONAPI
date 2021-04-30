@@ -1,7 +1,7 @@
-const { selectAllBranchStaffs } = require('../../models/staffs');
-const { isBranchOf } = require('../../models/branches');
+const { selectAllBranchStaffs } = require('../../../models/staffs');
+const { isBranchOf } = require('../../../models/branches');
 
-module.exports = async (req, res, next) => {
+const getAllStaffs = async (req, res, next) => {
   const accountId = req.accountId;
   const { branchId } = req.query;
   try {
@@ -22,3 +22,4 @@ module.exports = async (req, res, next) => {
     next(e);
   }
 };
+module.exports = getAllStaffs;

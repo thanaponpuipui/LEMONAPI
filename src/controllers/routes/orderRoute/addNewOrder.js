@@ -1,5 +1,5 @@
-const db = require('../../config/lemondb');
-const { insertOrderProduct, insertSaleOrder } = require('../../models/saleOrder');
+const db = require('../../../config/lemondb');
+const { insertOrderProduct, insertSaleOrder } = require('../../../models/saleOrder');
 
 const addNewOrder = async (req, res, next) => {
   try {

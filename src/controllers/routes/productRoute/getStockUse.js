@@ -1,6 +1,6 @@
-const { selectStockConsumeByProductId } = require('../../models/products');
+const { selectStockConsumeByProductId } = require('../../../models/products');
 
-module.exports = async (req, res, next) => {
+const getStockUse = async (req, res, next) => {
   const productId = req.params.productId;
   
   try {
@@ -15,3 +15,4 @@ module.exports = async (req, res, next) => {
     next(e);
   }
 }
+module.exports = getStockUse;

@@ -1,6 +1,6 @@
-const { Products } = require('../../models/products')
+const { Products } = require('../../../models/products')
 
-module.exports = async (req, res, next) => {
+const deleteProduct = async (req, res, next) => {
   const { productId } = req.params;
   try {
     await Products.deleteProduct({productId});
@@ -13,3 +13,4 @@ module.exports = async (req, res, next) => {
     next(e);
   }
 }
+module.exports = deleteProduct;

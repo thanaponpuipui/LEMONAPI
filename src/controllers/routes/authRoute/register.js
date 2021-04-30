@@ -10,8 +10,6 @@ const { insertBranch, insertBranchContactNo } = require('../../../models/branche
 const { insertOwnerAsStaff } = require('../../../models/staffs');
 const { insertMemberStatus } = require('../../../models/membershipStatus');
 
-const { passRepeat, userpassValidation } = require('../../validation/userpass');
-
 const register = db => async (req, res, next) => {
   let client;
   try {
