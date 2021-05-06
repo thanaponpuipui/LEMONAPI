@@ -7,11 +7,11 @@ const login = db => async (req, res, next) => {
   // validation
   const verify = userVerifier(db);
   // validate input
-  const { username } = value;
+  const { username } = 'tbd';
   try {
     // check if username is valid
     const account = await verify(username);
-    if (!account || validationError) {
+    if (!account) {
       const error = new Error('username or password incorrect');
       error.errorCode = 400;
       throw error;
@@ -42,7 +42,7 @@ const login = db => async (req, res, next) => {
       flag:'success',
       message:'login complete',
       data,
-    }
+    };
     console.log(response);
 
     res.status(200).json(response);
