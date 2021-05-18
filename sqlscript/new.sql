@@ -152,6 +152,7 @@ CREATE TABLE sale_orders (
   branch_id INTEGER REFERENCES branches(branch_id) ON DELETE CASCADE NOT NULL,
   order_type order_type,
   ordered_time TIMESTAMP NOT NULL DEFAULT NOW(),
+  is_paid BOOLEAN NOT NULL DEFAULT FALSE,
   closed_time TIMESTAMP
 );
 
