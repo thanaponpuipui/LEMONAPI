@@ -3,11 +3,10 @@ const jwt = require('../../utils/jwt');
 const { userVerifier } = require('../../utils/userVerifier');
 
 const login = db => async (req, res, next) => {
-  const { username:rawUsername, password } = req.body;
-  // validation
+  const { username, password } = req.body;
+
   const verify = userVerifier(db);
-  // validate input
-  const { username } = 'tbd';
+
   try {
     // check if username is valid
     const account = await verify(username);
