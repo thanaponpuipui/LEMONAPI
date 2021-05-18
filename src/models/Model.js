@@ -2,16 +2,16 @@ const db = require('../config/lemondb');
 
 //abstract class for models
 class Model {
-  constructor(client = db) {
+  constructor (client = db) {
     this.client = client;
     if (this.constructor === 'model') throw new Error('error intantiate abstract class!');
   }
 
-  getClient() {
+  getClient () {
     return this.client;
   }
 
-  setClient(client) {
+  setClient (client) {
     this.client = client;
   }
 }
